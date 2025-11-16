@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('quantity')->default(1);
             $table->decimal('price', 10, 2);
             $table->timestamps();
-            $table->primary(['order_id', 'product_id']);
+            $table->unique(['order_id', 'product_id']);
         });
     }
 

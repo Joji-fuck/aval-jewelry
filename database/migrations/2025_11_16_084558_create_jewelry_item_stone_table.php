@@ -12,9 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('jewelry_item_stone', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('stone_id')->constrained()->onDelete('set null');
-            $table->foreignId('jewelry_item_id')->constrained()->onDelete('set null');
+            $table->foreignId('stone_id')->constrained()->onDelete('cascade');
+            $table->foreignId('jewelry_item_id')->constrained()->onDelete('cascade');
             $table->integer('quantity')->default(0);
             $table->timestamps();
             $table->primary(['stone_id', 'jewelry_item_id']);

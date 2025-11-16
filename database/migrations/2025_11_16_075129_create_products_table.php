@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->decimal('price', 10, 2)->default(0);
             $table->unsignedInteger('stock')->default(0);
-            $table->foreignId('category_id')->constrained()->onDelete('set null');
+            $table->foreignId('category_id')->nullable()->constrained()->onDelete('set null');
             $table->boolean('is_published')->default(false);
             $table->morphs('productable');
             $table->timestamps();
