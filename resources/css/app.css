@@ -9,3 +9,484 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+/*=========================Общие стили=========================*/
+*{
+    padding: 0;
+    margin: 0;
+
+}
+.wrap{
+    width: 90%;
+    margin: 0 auto;
+}
+body{
+    font-family: Roboto, sans-serif;
+    background-color: #151515;
+}
+/*=========================Конец общих стилей=========================*/
+
+/*=========================Navbar=========================*/
+header{
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+nav{
+    background: #1b1b1b;
+    display: flex;
+    justify-content: center;
+    height: 110px;
+    align-items: center;
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.2);
+}
+nav ul{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+nav a{
+    font-weight: lighter;
+    font-size: 20px;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+nav a::after {
+    display: block;
+    content: "";
+    height: 2px;
+    width: 0;
+    background-color: #FFFFFF;
+    transition: width 0.3s ease-in-out;
+}
+nav a:hover:after,
+nav a:focus:after {
+    width: 100%;
+}
+/*=========================Конец Navbar=========================*/
+
+/*=========================Footer=========================*/
+footer{
+    color: #FFF;
+    background: #1b1b1b;
+    display: flex;
+    height: 70px;
+    align-items: center;
+    box-shadow: 0 -5px 20px 0 rgba(0, 0, 0, 0.2);
+    margin-top: 50px;
+    justify-content: center;
+    position: relative;
+}
+footer p{
+    margin-left: 30px;
+    font-weight: 300;
+    font-size: 17px;
+}
+/*=========================Конец Footer=========================*/
+
+/*=========================Главная=========================*/
+main{
+    overflow: hidden;
+    margin-top: 20px;
+}
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 150px;
+    width: 100%;
+    flex-wrap: wrap;
+    padding: 15vw 0;
+}
+.main-img{
+    position: relative;
+    z-index: -1;
+}
+
+.main-img::before {
+    content: "";
+    position: absolute;
+    top: -250px; /* Отступ для градиента */
+    left: -250px;
+    width: calc(100% + 500px); /* Увеличиваем размер градиента */
+    height: calc(100% + 500px);
+    background: radial-gradient(
+        ellipse at center,
+        rgba(57, 101, 177, 0.4) 0%,
+        rgba(255, 255, 255, 0) 60%
+    );
+    z-index: -1; /* Градиент под изображением */
+    border-radius: 50%; /* Если нужно круглое свечение */
+}
+.main-text{
+    text-align: center;
+}
+.main-text h1{
+    font-size: 256px;
+    color: white;
+    font-weight: 400;
+}
+.main-text h2{
+    font-size: 64px;
+    color: #fff;
+    font-weight: 100;
+}
+/*=========================Конец главной=========================*/
+
+/*=========================Меню=========================*/
+.menu{
+    width: 80%;
+}
+.menu-content{
+    margin-top: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    color: #ffffff;
+    flex-wrap: wrap;
+}
+.menu-content a{
+    width: 463px;
+    height: 590px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.menu-content a img{
+    filter: saturate(0%);
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    transition: .7s;
+}
+.menu-content a img:hover, .menu-content a img:active{
+    filter: saturate(100%);
+    position: relative;
+    width: 90%;
+    height: 90%;
+    margin-bottom: 18px;
+}
+/*Фигуры*/
+.blue-line{
+    position: absolute;
+    width: 20%;
+    height: 90%;
+    top: 20px;
+    border-radius: 0 20px 20px 0;
+    background: #3965B1;
+    z-index: -1;
+    left: 74.5%;
+}
+.red-square{
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 20px 0 20px 20px;
+    background: #ff0000;
+    z-index: -1;
+    left: -30px;
+    bottom: -30px;
+}
+.green-circle{
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: #fffb01;
+    z-index: -1;
+    left: -40px;
+    bottom: -40px;
+}
+.orange-triangle{
+    position: absolute;
+    z-index: -1;
+    top: -20px;
+    left: -25px;
+    width: 0;
+    height: 0;
+    border-radius: 30px 0 0 0;
+    border-left: 100px solid orange;
+    border-top: 100px solid orange;
+    border-right: 100px solid transparent;
+    border-bottom: 100px solid transparent;
+}
+/*конец фигур*/
+
+.menu:nth-child(3) .menu-content{
+    flex-direction: row-reverse;
+}
+.menu-text{
+    display: flex;
+    flex-direction: column;
+}
+.menu-text span{
+    word-break: keep-all;
+}
+.menu-content img{
+    width: 463px;
+    /*width: 200px;*/
+    height: 590px;
+}
+.menu-text span:nth-child(1){
+    font-size: 64px;
+    color: white;
+    font-weight: normal;
+    margin-bottom: 20px;
+}
+.menu-text span:nth-child(2){
+    font-size: 32px;
+    font-weight: lighter;
+    color: white;
+}
+/*=========================Конец Меню=========================*/
+
+
+/*=========================Общие Каталог=========================*/
+.catalog{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.catalog-filter{
+    width: 20%;
+    position: sticky;
+    bottom: 0;
+    /*border: 2px solid greenyellow;*/
+}
+
+.cards{
+    width: 75%;
+    /*border: 2px red solid;*/
+}
+.img-main{
+    width: 100%;
+    height: 400px;
+}
+
+
+/*=========================Конец Общие Каталог=========================*/
+
+
+/*=========================Левая часть Каталога=========================*/
+.panel button, .filter-button{
+    border: 1px solid white;
+    background: #151515;
+    height: 30px;
+    border-radius: 7px;
+    color: white;
+    transition: .2s;
+}
+.panel button:hover, .filter-button:hover{
+    color: #151515;
+    background: #FFFFFF;
+    transition: .2s;
+}
+.filter-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.filter-top span{
+    color: #FFFFFF;
+    font-size: 36px;
+
+}
+.filter-top a{
+    font-weight: lighter;
+    color: #FFFFFF;
+    font-size: 20px;
+    text-decoration: none;
+}
+button{
+    border: 0;
+}
+.filter{
+    display: flex;
+    flex-direction: column;
+}
+.accordion {
+    background: #151515;
+    color: #ffffff;
+    border-bottom: 1px solid white;
+    cursor: pointer;
+    width: 100%;
+    height: 50px;
+    text-align: left;
+    outline: none;
+    transition: 0.4s;
+    display: flex;
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+.active, .accordion:hover {
+    background: #161616;
+}
+.active{
+    border: 0;
+}
+
+.panel {
+    color: #FFFFFF;
+    padding: 0 18px 10px;
+    background: #161616;
+    display: none;
+    overflow: hidden;
+    border-bottom: 1px solid white;
+}
+.accordion:after {
+    content: url("../images/arrow-down.png");
+    font-size: 13px;
+    background: #161616;
+    float: right;
+    margin-left: 5px;
+}
+
+.active:after {
+    content: url("../images/arrow-top.png");
+}
+.inputs_price{
+    display: flex;
+    justify-content: space-between;
+
+}
+.input_price{
+    border: 1px solid white;
+    border-radius: 7px;
+    height: 40px;
+    padding-left: 10px;
+    width: 45%;
+}
+
+/*.checkbox-item:disabled{*/
+/*   Отключенный чекбокс (возможный функционал) */
+/*}*/
+
+.checkbox-item{
+    margin-top: 5px;
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid white;
+    margin-right: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.checkbox-item:checked{
+    outline: none;
+    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.15);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+}
+.checkbox-item:active{
+    filter: brightness(70%);
+}
+.filter-buttons{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-evenly;
+}
+.filter-button{
+    font-size: 14px;
+    width: 40%;
+    height: 40px;
+    background: #FFFFFF;
+    color: #151515;
+}
+.filter-button:hover{
+    color: #FFFFFF;
+    background: #151515;
+}
+
+
+/*=========================Конец Левой части Каталога=========================*/
+
+
+
+/*=========================Правая часть Каталога=========================*/
+.shopping-cart{
+    background: #FFFFFF;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.cards-sort{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    font-weight: 300;
+}
+.cards-sort-button span:first-child{
+    font-weight: 500;
+}
+.cards-sort-button a{
+    text-decoration: none;
+    color: #6d6d6d;
+}
+
+.cards-all{
+    margin-top: 20px;
+    margin-left: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 400px);
+    grid-template-rows: auto auto;
+    grid-gap: 20px;
+    font-family: Montserrat, sans-serif;
+}
+.card{
+    border: 1px solid white;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    color: #FFFFFF;
+    text-align: center;
+}
+.card-bottom{
+    margin-top: 20px;
+}
+.card-title{
+    font-size: 25px;
+    font-weight: 400;
+}
+.card-bottom-price{
+    margin: 10px 0;
+    font-size: 25px;
+}
+.card-bottom-price span{
+    font-weight: 700;
+    margin-left: 5px;
+}
+.cards-sort-button{
+    display: flex;
+}
+.cards-bottom-buttons button{
+    margin-top: 20px;
+    font-family: Roboto, sans-serif;
+    width: 160px;
+    height: 50px;
+    border-radius: 7px;
+    font-size: 18px;
+    border: 0;
+    color: #333333;
+}
+.cards-bottom-buttons button:first-child{
+    background: #333333;
+    color: #FFFFFF;
+}
+/*=========================Конец Правой части Каталога=========================*/
+
+/*=========================Корзина=========================*/
+
+/*=========================Конец корзины=========================*/
