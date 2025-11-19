@@ -6,9 +6,7 @@ Route::get('/', function () {
     return view('home', ['title' => 'Ювелирная мастерская Аваль']);
 }) -> name('home');
 
-Route::get('/catalog', function () {
-    return view('home', ['title' => 'Ювелирная мастерская Аваль']);
-}) -> name('catalog');
+Route::resource('catalog', 'App\Http\Controllers\CatalogController')->names('catalog');
 
 Route::get('/login', function () {
     return view('home', ['title' => 'Ювелирная мастерская Аваль']);

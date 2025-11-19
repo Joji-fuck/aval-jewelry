@@ -17,7 +17,7 @@
 
     <section class="menu wrap">
         <div class="menu-content">
-            <a href="{{route('catalog')}}" id="img-1">
+            <a href="{{route('catalog.index')}}" id="img-1">
                 <div class="blue-line"></div>
                 <div class="red-square"></div>
                 <img src="{{asset('images/ring-main.png')}}" alt="Кольцо">
