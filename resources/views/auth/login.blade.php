@@ -13,12 +13,7 @@
 
         @error('identity')
         <div class="alert alert-danger" role="alert">
-            {{ $message }}
-        </div>
-        @enderror
-        @error('password')
-        <div class="alert alert-danger" role="alert">
-            {{ $message }}
+            {{ $message }} попробуйте <a href="{{route('register.index')}}">Зарегистрироваться</a>
         </div>
         @enderror
         <form method="post" action="{{route('login.store')}}">
