@@ -8,9 +8,16 @@ Route::get('/', function () {
 
 Route::resource('catalog', 'App\Http\Controllers\CatalogController')->names('catalog');
 
-Route::get('/login', function () {
-    return view('home', ['title' => 'Ювелирная мастерская Аваль']);
-}) -> name('login');
+Route::prefix('auth')->group(function(){
+    Route::get('/login', [\App\Http\Controllers\AuthController::class, 'loginIndex']) -> name('login.index');
+    Route::post('/login/store', [\App\Http\Controllers\AuthController::class, 'loginStore']) -> name('login.store');
+
+    Route::get('/register', [\App\Http\Controllers\AuthController::class, 'registerIndex']) -> name('register.index');
+    Route::post('/register/store', [\App\Http\Controllers\AuthController::class, 'registerStore']) -> name('register.store');
+
+    Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout']) -> name('logout');
+});
+
 
 Route::get('/register', function () {
     return view('home', ['title' => 'Ювелирная мастерская Аваль']);

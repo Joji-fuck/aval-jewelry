@@ -110,5 +110,5 @@
 
     </section>
 
-
+@include('layout.sections.footer')
 @endsection

@@ -12,20 +12,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     @yield('gsap')
     @yield('auth-css')
+    @yield('bootstrap-css')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <header>
     @include('layout.sections.header')
 </header>
-<main>
+<main class="py-4 flex-grow-1">
     <div class="content">
         @yield('content')
-        @include('layout.sections.footer')
     </div>
 </main>
-
-
+@yield('bootstrap-js')
 </body>
 </html>

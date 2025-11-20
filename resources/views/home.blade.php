@@ -54,6 +54,8 @@
             </div>
         </div>
     </section>
+
+    @include('layout.sections.footer')
 @endsection
 
 
