@@ -8,7 +8,7 @@
             <li><a href="{{route('login.index')}}">Вход</a></li>
         @endguest
         @auth
-            <li><a href="{{route('home')}}">Профиль</a></li>
+            <li><a href="{{route('profile.index')}}">Профиль</a></li>
             <li><a href="{{route('logout')}}">Выход</a></li>
         @endauth
     </ul>

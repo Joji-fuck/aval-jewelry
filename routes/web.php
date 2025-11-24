@@ -2,12 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 
+//главная
 Route::get('/', function () {
-    return view('home', ['title' => 'Ювелирная мастерская Аваль']);
+    $title = 'Ювелирная мастерская Аваль';
+    return view('home', compact('title'));
 }) -> name('home');
 
+//Каталог
 Route::resource('catalog', 'App\Http\Controllers\CatalogController')->names('catalog');
 
+//Вход + Регистрация
 Route::prefix('auth')->group(function(){
     Route::get('/login', [\App\Http\Controllers\AuthController::class, 'loginIndex']) -> name('login.index');
     Route::post('/login/store', [\App\Http\Controllers\AuthController::class, 'loginStore']) -> name('login.store');
@@ -18,11 +22,14 @@ Route::prefix('auth')->group(function(){
     Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout']) -> name('logout');
 });
 
-
-Route::get('/register', function () {
-    return view('home', ['title' => 'Ювелирная мастерская Аваль']);
-}) -> name('register');
-
+//Профиль
+Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'index']) -> name('profile.index');
+Route::patch('/profile/update', [\App\Http\Controllers\ProfileController::class, 'indexUpdate']) -> name('profile.index.update');
+Route::get('/profile/address', [\App\Http\Controllers\ProfileController::class, 'address']) -> name('profile.address');
+Route::patch('/profile/address/update', [\App\Http\Controllers\ProfileController::class, 'addressUpdate']) -> name('profile.address.update');
+Route::get('/profile/password', [\App\Http\Controllers\ProfileController::class, 'passwordReset']) -> name('profile.password');
+Route::get('/profile/password/update', [\App\Http\Controllers\ProfileController::class, 'passwordResetUpdate']) -> name('profile.password.update');
+Route::get('/profile/history', [\App\Http\Controllers\ProfileController::class, 'history']) -> name('profile.history');
 
 //Каталог
 //Route::get('/catalog', [\App\Http\Controllers\CatalogController::class, 'index']) -> name('catalog');
