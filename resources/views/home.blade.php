@@ -2,6 +2,7 @@
 
 @section('gsap')
     @extends('layout.sections.gsap')
+    <script src="{{ asset('js/app.js') }}" defer></script>
 @endsection
 
 @section('content')

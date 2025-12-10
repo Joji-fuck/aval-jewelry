@@ -4,4 +4,6 @@
     <a href="{{route('profile.password')}}" class="list-group-item list-group-item-action {{ request()->routeIs('profile.password') ? 'active' : '' }}">Смена пароля</a>
     <a href="{{route('profile.history')}}" class="list-group-item list-group-item-action {{ request()->routeIs('profile.history') ? 'active' : '' }}">История заказов</a>
     <a href="{{route('logout')}}" class="list-group-item list-group-item-action">Выйти</a>
+{{--    <a href="{{route('logout')}}" class="list-group-item list-group-item-action">Выйти</a>--}}
 </div>
+

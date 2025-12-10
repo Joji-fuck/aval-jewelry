@@ -492,11 +492,46 @@ button{
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
+    height: 1500px;
 }
 .profile-left{
+    z-index: 0;
     width: 20%;
 }
 .profile-right{
     width: 70%;
 }
 /*=========================Конец профиля=========================*/
+
+/*=========================CRM=========================*/
+.admin-menu{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: center;
+}
+.admin-menu-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 5px #FFFFFF;
+    border-radius: 20px;
+    width: 100%;
+    height: 250px;
+    font-size: 32px;
+    text-decoration: none;
+    color: #FFFFFF;
+    transition: .3s;
+}
+.admin-menu-button:hover{
+    transition: .3s;
+    color: black;
+    background: #FFFFFF;
+    box-shadow: 0 0 25px #FFFFFF;
+}
+@media (max-width: 768px) {
+    .admin-menu {
+        grid-template-columns: 1fr;
+    }
+}
+/*=========================Конец CRM=========================*/

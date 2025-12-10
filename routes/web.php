@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 //главная
@@ -31,16 +32,28 @@ Route::get('/profile/password', [\App\Http\Controllers\ProfileController::class,
 Route::get('/profile/password/update', [\App\Http\Controllers\ProfileController::class, 'passwordResetUpdate']) -> name('profile.password.update');
 Route::get('/profile/history', [\App\Http\Controllers\ProfileController::class, 'history']) -> name('profile.history');
 
+
+Route::get('/about', [\App\Http\Controllers\AboutController::class, 'index']) -> name('about.index');
+
+Route::prefix('/crm')->name('crm.')->group(function(){
+    Route::get('/', [AdminController::class, 'index']) -> name('index');
+    Route::get('/catalog-product', [\App\Http\Controllers\CRM\CatalogProductController::class, 'index']) -> name('catalog-product.index');
+    Route::get('/catalog-stone', [\App\Http\Controllers\CRM\CatalogStoneController::class, 'index']) -> name('catalog-stone.index');
+    Route::get('/order', [\App\Http\Controllers\CRM\OrderController::class, 'index']) -> name('order.index');
+    Route::get('/parameter', [\App\Http\Controllers\CRM\ParameterController::class, 'index']) -> name('parameter.index');
+    Route::prefix('/parameter/{type}')->name('parameter.')->group(function(){
+        Route::get('/', [\App\Http\Controllers\CRM\ParameterController::class, 'index']) -> name('index');
+        Route::post('/store', [\App\Http\Controllers\CRM\ParameterController::class, 'store']) -> name('store');
+        Route::get('/{id}/edit', [\App\Http\Controllers\CRM\ParameterController::class, 'edit']) -> name('edit');
+        Route::put('/{id}', [\App\Http\Controllers\CRM\ParameterController::class, 'update']) -> name('update');
+        Route::delete('/{id}', [\App\Http\Controllers\CRM\ParameterController::class, 'destroy']) -> name('destroy');
+    });
+
+});
 //Каталог
 //Route::get('/catalog', [\App\Http\Controllers\CatalogController::class, 'index']) -> name('catalog');
 //Route::post('/catalog/store', [\App\Http\Controllers\CatalogController::class, 'store']) -> name('catalog.store');
 //Route::get('/catalog/cart', [\App\Http\Controllers\CatalogController::class, 'cart']) -> name('catalog.cart');
-//
-////auth-crm
-//Route::get('/login', [\App\Http\Controllers\AuthController::class, 'login_index']) -> name('login.index');
-//Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']) -> name('login');
-//Route::get('/register', [\App\Http\Controllers\AuthController::class, 'register_index']) -> name('register.index');
-//Route::post('/register', [\App\Http\Controllers\AuthController::class, 'register']) -> name('register');
 
 //CRM
 //Route::prefix('/crm')->group(function () {
