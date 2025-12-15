@@ -37,10 +37,13 @@ Route::get('/about', [\App\Http\Controllers\AboutController::class, 'index']) ->
 
 Route::prefix('/crm')->name('crm.')->group(function(){
     Route::get('/', [AdminController::class, 'index']) -> name('index');
-    Route::get('/catalog-product', [\App\Http\Controllers\CRM\CatalogProductController::class, 'index']) -> name('catalog-product.index');
+
+    Route::resource('catalog-product', \App\Http\Controllers\CRM\CatalogProductController::class)->names('catalog-product');
+
     Route::get('/catalog-stone', [\App\Http\Controllers\CRM\CatalogStoneController::class, 'index']) -> name('catalog-stone.index');
     Route::get('/order', [\App\Http\Controllers\CRM\OrderController::class, 'index']) -> name('order.index');
     Route::get('/parameter', [\App\Http\Controllers\CRM\ParameterController::class, 'index']) -> name('parameter.index');
+
     Route::prefix('/parameter/{type}')->name('parameter.')->group(function(){
         Route::get('/', [\App\Http\Controllers\CRM\ParameterController::class, 'index']) -> name('index');
         Route::post('/store', [\App\Http\Controllers\CRM\ParameterController::class, 'store']) -> name('store');

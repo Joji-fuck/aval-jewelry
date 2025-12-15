@@ -33,7 +33,7 @@ class Stone extends Model
     public function jewelry_items(): BelongsToMany{
         return $this->belongsToMany(JewelryItem::class);
     }
-    public function products(): MorphMany
+    public function product(): MorphMany
     {
         return $this->morphMany(Product::class, 'productable');
     }

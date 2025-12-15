@@ -10,8 +10,9 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 class JewelryItem extends Model
 {
     protected $fillable = [
-        'name',
-        'slug'
+        'material_id',
+        'size',
+        'base_weight'
     ];
     public function stones(): BelongsToMany{
         return $this->belongsToMany(Stone::class);
@@ -20,7 +21,7 @@ class JewelryItem extends Model
     {
         return $this->belongsTo(Material::class);
     }
-    public function products(): MorphMany
+    public function product(): MorphMany
     {
         return $this->morphMany(Product::class, 'productable');
     }

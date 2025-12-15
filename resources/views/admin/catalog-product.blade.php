@@ -10,6 +10,7 @@
 @section('content')
     <div class="container">
         <h1 class="text-white">Каталог изделий</h1>
+        <a href="{{route('crm.catalog-product.create')}}" class="btn btn-primary mb-3">Создать товар</a>
         <table class="table table-dark table-hover">
                 <thead>
                 <tr>
@@ -19,6 +20,8 @@
                     <th>Тип</th>
                     <th>Характеристики (Специфика)</th>
                     <th>Цена</th>
+                    <th>Фото</th>
+                    <th>Действия</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -54,34 +57,51 @@
                             @endif
                         </td>
 
-                        <td>${{ number_format($product->price, 2) }}</td>
+                        <td>{{ number_format($product->price, 2) }} ₽</td>
+
+                        <td>
+                            @if($product->images)
+                                @foreach($product->images as $image)
+                                    <a href="{{ asset('storage/' . $image->path) }}" target="_blank">
+                                        <img src="{{ asset('storage/' . $image->path) }}"
+                                             class="rounded border border-secondary"
+                                             style="width: 60px; height: 60px; object-fit: cover;"
+                                             alt="{{ $product->name }}">
+                                    </a>
+                                @endforeach
+                            @else
+                                {{-- ВАРИАНТ 2: Если фото нет — одна заглушка --}}
+                                <img src="{{ asset('storage/default.gif') }}"
+                                     class="rounded border border-secondary opacity-50"
+                                     style="width: 60px; height: 60px; object-fit: contain; background: #2b2b2b;"
+                                     alt="Нет фото">
+                            @endif
+
+                        </td>
+                        <td class="text-end">
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="{{ route('crm.catalog-product.edit', $product->id) }}"
+                                   class="btn btn-sm btn-outline-warning"
+                                   title="Редактировать">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form action="{{ route('crm.catalog-product.destroy', $product->id) }}"
+                                      method="POST"
+                                      onsubmit="return confirm('Вы уверены, что хотите удалить {{ $product->name }}? Это действие нельзя отменить.');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                            class="btn btn-sm btn-outline-danger"
+                                            title="Удалить">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+
+                            </div>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
-{{--            <thead>--}}
-{{--            <tr>--}}
-{{--                <th scope="col">#</th>--}}
-{{--                <th scope="col">Имя</th>--}}
-{{--                <th scope="col">ЧПУ</th>--}}
-{{--                <th scope="col">Артикул</th>--}}
-{{--                <th scope="col">Описание</th>--}}
-{{--                <th scope="col">Цена</th>--}}
-{{--                <th scope="col">Кол-во</th>--}}
-{{--                <th scope="col">Категория</th>--}}
-{{--                <th scope="col">На продажу?</th>--}}
-{{--                <th scope="col">Действия</th>--}}
-{{--            </tr>--}}
-{{--            </thead>--}}
-{{--            <tbody>--}}
-
-{{--            <tr>--}}
-{{--                <th scope="row">1</th>--}}
-{{--                <td>Mark</td>--}}
-{{--                <td>Otto</td>--}}
-{{--                <td>@mdo</td>--}}
-{{--            </tr>--}}
-
-{{--            </tbody>--}}
         </table>
     </div>
 

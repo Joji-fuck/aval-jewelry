@@ -13,7 +13,7 @@ class Product extends Model
     protected $fillable = [
         'name',
         'slug',
-        'sky',
+        'sku',
         'description',
         'price',
         'stock',
@@ -31,10 +31,11 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
-    public function product_images(): HasMany{
+    public function images(): HasMany{
         return $this->hasMany(ProductImage::class);
     }
     public function orders(): BelongsToMany{
       return $this->belongsToMany(Order::class);
     }
+
 }
