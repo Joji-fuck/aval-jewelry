@@ -56,8 +56,6 @@ class CatalogProductController extends Controller
                     'stock'        => $request->stock,
                     'description'  => $request->description,
                 ]);
-
-                // !!! ИСПРАВЛЕНИЕ: Тут тоже проверяем $request->type
             } elseif ($request->type === 'jewelry') {
 
                 $request->validate([

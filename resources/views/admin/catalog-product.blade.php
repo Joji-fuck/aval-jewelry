@@ -30,7 +30,6 @@
                         <td>{{ $product->id }}</td>
                         <td>{{ $product->sku }}</td>
                         <td>{{ $product->name }}</td>
-
                         <td>
                             @if($product->productable_type === 'App\Models\Stone')
                                 <span class="badge bg-info">Камень</span>
@@ -60,7 +59,7 @@
                         <td>{{ number_format($product->price, 2) }} ₽</td>
 
                         <td>
-                            @if($product->images)
+                            @if($product->images->isNotEmpty())
                                 @foreach($product->images as $image)
                                     <a href="{{ asset('storage/' . $image->path) }}" target="_blank">
                                         <img src="{{ asset('storage/' . $image->path) }}"
@@ -70,13 +69,11 @@
                                     </a>
                                 @endforeach
                             @else
-                                {{-- ВАРИАНТ 2: Если фото нет — одна заглушка --}}
                                 <img src="{{ asset('storage/default.gif') }}"
                                      class="rounded border border-secondary opacity-50"
                                      style="width: 60px; height: 60px; object-fit: contain; background: #2b2b2b;"
                                      alt="Нет фото">
                             @endif
-
                         </td>
                         <td class="text-end">
                             <div class="d-flex justify-content-center gap-2">

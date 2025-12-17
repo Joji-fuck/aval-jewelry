@@ -13,7 +13,7 @@
             <span>Каталог изделий</span>
         </a>
         <a class="admin-menu-button" href="{{route('crm.catalog-stone.index')}}">
-            <span>Каталог камней</span>
+            <span>В разработке...</span>
         </a>
         <a class="admin-menu-button" href="{{route('crm.order.index')}}">
             <span>Заявки</span>

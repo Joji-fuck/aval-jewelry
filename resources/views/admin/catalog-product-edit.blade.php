@@ -93,8 +93,8 @@
                             {{-- === ТИП ТОВАРА (ЗАБЛОКИРОВАН) === --}}
                             <div class="mb-4">
                                 <label class="form-label text-gold fw-bold text-uppercase">Тип изделия</label>
-                                <input type="text" class="form-control form-control-dark"
-                                       value="{{ $product->productable_type === 'App\Models\Stone' ? '💎 Драгоценный камень' : '💍 Ювелирное украшение' }}"
+                                <input type="text" class="form-control form-control"
+                                       value="{{ $product->productable_type === 'App\Models\Stone' ? ' Драгоценный камень' : ' Ювелирное украшение' }}"
                                        disabled readonly>
                                 <input type="hidden" name="type" value="{{ $product->productable_type === 'App\Models\Stone' ? 'stone' : 'jewelry' }}">
                             </div>
@@ -195,7 +195,7 @@
                                         <div class="col-md-6">
                                             <label class="form-label">Тип камня</label>
                                             <select name="type_id" class="form-select form-select-dark">
-                                                @foreach($stoneTypes as $type)
+                                                @foreach($types as $type)
                                                     <option value="{{ $type->id }}" {{ $product->productable->type_id == $type->id ? 'selected' : '' }}>
                                                         {{ $type->name }}
                                                     </option>
@@ -207,7 +207,7 @@
                                             <select name="cut_id" class="form-select form-select-dark">
                                                 <option value="">Не выбрано</option>
                                                 @foreach($cuts as $cut)
-                                                    <option value="{{ $cut->id }}" {{ $product->productable->cut_id == $cut->id ? 'selected' : '' }}>{{ $cut->name }}</option>
+                                                    <option value="{{$cut->id}}" {{ $product->productable->cut_id == $cut->id ? 'selected' : '' }}>{{ $cut->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

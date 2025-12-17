@@ -9,8 +9,16 @@ Route::get('/', function () {
     return view('home', compact('title'));
 }) -> name('home');
 
+// Корзина
+Route::get('/cart', [\App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add/{id}', [\App\Http\Controllers\CatalogController::class, 'add'])->name('cart.add');
+Route::get('/cart/remove/{id}', [\App\Http\Controllers\CartController::class, 'remove'])->name('cart.remove');
+Route::post('/order', [\App\Http\Controllers\CRM\OrderController::class, 'store'])->name('order.store');
+
 //Каталог
-Route::resource('catalog', 'App\Http\Controllers\CatalogController')->names('catalog');
+//Route::resource('catalog', 'App\Http\Controllers\CatalogController')->names('catalog');
+Route::get('/catalog', [\App\Http\Controllers\CatalogController::class, 'index']) -> name('catalog.index');
+Route::get('/catalog/{slug}', [\App\Http\Controllers\CatalogController::class, 'show']) -> name('catalog.show');
 
 //Вход + Регистрация
 Route::prefix('auth')->group(function(){
