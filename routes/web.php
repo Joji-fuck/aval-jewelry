@@ -11,7 +11,7 @@ Route::get('/', function () {
 
 // Корзина
 Route::get('/cart', [\App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add/{id}', [\App\Http\Controllers\CatalogController::class, 'add'])->name('cart.add');
+Route::get('/cart/add/{id}', [\App\Http\Controllers\CatalogController::class, 'add'])->name('cart.add');
 Route::get('/cart/remove/{id}', [\App\Http\Controllers\CartController::class, 'remove'])->name('cart.remove');
 Route::post('/order', [\App\Http\Controllers\CRM\OrderController::class, 'store'])->name('order.store');
 

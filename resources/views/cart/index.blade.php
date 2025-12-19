@@ -7,6 +7,11 @@
 @endsection
 
 @section('content')
+    <style>
+        input.form-control.bg-dark.text-white.border-secondary::placeholder{
+            color: rgba(255, 255, 255, 0.3);
+        }
+    </style>
     <div class="container py-5 text-white">
         <h1 class="mb-4">Корзина</h1>
 
@@ -67,8 +72,6 @@
                         <div class="card-body">
                             <form action="{{ route('order.store') }}" method="POST">
                                 @csrf
-
-                                {{-- Блок 1: Личные данные --}}
                                 <h6 class="text-secondary mb-3">Личные данные</h6>
 
                                 <div class="mb-3">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 
+
 class CartController extends Controller
 {
     // Показать корзину
@@ -32,8 +33,6 @@ class CartController extends Controller
         if(isset($cart[$id])) {
             $cart[$id]['quantity']++;
         } else {
-            // Иначе добавляем новый
-            // Получаем картинку или заглушку
             $imagePath = $product->images->first() ? $product->images->first()->path : null;
 
             $cart[$id] = [

@@ -4,6 +4,9 @@ namespace App\Http\Controllers\CRM;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Order;
+use App\Models\OrderProduct;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -41,7 +44,7 @@ class OrderController extends Controller
 
         // 3. Создаем заказ
         $order = Order::create([
-            'status'       => 'new',
+            'status'       => 'Ожидает оплаты',
             'user_id'      => Auth::id(), // Если пользователь вошел, запишется его ID, иначе null
             'surname'      => $request->surname,
             'name'         => $request->name,
@@ -52,16 +55,14 @@ class OrderController extends Controller
             'street'       => $request->street,
             'house_number' => $request->house_number,
             'zip_code'     => $request->zip_code,
-            'total_price'  => $total, // В твоей модели поле называется total_price
+            'total_price'  => $total,
             'comment'      => $request->comment,
         ]);
 
-        // 4. Сохраняем товары (таблица order_items должна быть создана, как мы обсуждали ранее)
         foreach($cart as $id => $item) {
-            OrderItem::create([
+            OrderProduct::create([
                 'order_id'     => $order->id,
                 'product_id'   => $id,
-                'product_name' => $item['name'],
                 'price'        => $item['price'],
                 'quantity'     => $item['quantity'],
             ]);

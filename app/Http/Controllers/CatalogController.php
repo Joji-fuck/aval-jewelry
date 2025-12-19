@@ -76,4 +76,43 @@ class CatalogController extends Controller
 
         return view('catalog.show', compact('product', 'title'));
     }
+
+    public function add($id){
+        $product = Product::findOrFail($id);
+        if (!$product->is_published) {
+            return redirect()->back()->with('error', 'Товар снят с продажи.');
+        }
+        if ($product->stock < 1) {
+            return redirect()->back()->with('error', 'Товара нет в наличии.');
+        }
+        $cart = session()->get('cart', []);
+        if(isset($cart[$id])) {
+            if ($cart[$id]['quantity'] + 1 > $product->stock) {
+                return redirect()->back()->with('error', 'Недостаточно товара на складе.');
+            }
+            $cart[$id]['quantity']++;
+        } else {
+            $cart[$id] = [
+                "name" => $product->name,
+                "sku" => $product->sku,
+                "slug" => $product->slug,
+                "quantity" => 1,
+                "price" => $product->price,
+            ];
+        }
+
+        session()->put('cart', $cart);
+
+        return redirect()->back()->with('success', 'Товар добавлен в корзину!');
+    }
+
+    public function remove($id)
+    {
+        $cart = session()->get('cart');
+        if(isset($cart[$id])) {
+            unset($cart[$id]);
+            session()->put('cart', $cart);
+        }
+        return redirect()->back()->with('success', 'Товар удален из корзины');
+    }
 }

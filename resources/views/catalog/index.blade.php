@@ -180,9 +180,11 @@
                                         @endif
                                     </div>
 
-                                    <div class="mt-auto d-flex justify-content-between align-items-center">
-                                        <div class="price-tag">${{ number_format($product->price, 0, '.', ' ') }}</div>
-                                        <a href="#" class="btn btn-outline-light btn-sm">Подробнее</a>
+                                    <div class="mt-auto d-flex justify-content-between align-items-center w-48">
+                                        <div class="price-tag">{{ number_format($product->price, 0, '.', ' ') }}₽</div>
+                                        <a href="{{ route('cart.add', $product->id) }}" class="btn btn-primary">
+                                            В корзину
+                                        </a>
                                     </div>
                                 </div>
                             </div>
