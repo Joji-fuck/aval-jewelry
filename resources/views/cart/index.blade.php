@@ -36,18 +36,18 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             {{-- Проверка на наличие картинки --}}
-                                            @if(isset($details['image']) && $details['image'])
-                                                <img src="{{ asset('storage/' . $details['image']) }}"
+                                            @if(isset($details['images']))
+                                                <img src="{{ asset('storage/' . $details['images']) }}"
                                                      class="rounded me-3" style="width: 50px; height: 50px; object-fit: cover;">
                                             @else
-                                                <div class="bg-secondary rounded me-3" style="width: 50px; height: 50px;"></div>
+                                                <img src="{{ asset('storage/default.gif')}}" class="rounded me-3" style="width: 50px; height: 50px; object-fit: cover;">
                                             @endif
                                             <small>{{ $details['name'] }}</small>
                                         </div>
                                     </td>
-                                    <td>{{ number_format($details['price'], 0, '.', ' ') }}</td>
+                                    <td>{{ number_format($details['price'], 0, '.', ' ') }}₽</td>
                                     <td>{{ $details['quantity'] }}</td>
-                                    <td class="fw-bold">{{ number_format($details['price'] * $details['quantity'], 0, '.', ' ') }}</td>
+                                    <td class="fw-bold">{{ number_format($details['price'] * $details['quantity'], 0, '.', ' ') }}₽</td>
                                     <td>
                                         <a href="{{ route('cart.remove', $id) }}" class="text-danger"><i class="bi bi-x-lg"></i></a>
                                     </td>
@@ -82,11 +82,11 @@
                                         <input type="text" name="name" class="form-control bg-dark text-white border-secondary" placeholder="Имя *" required value="{{ Auth::user()->name ?? '' }}">
                                     </div>
                                     <div class="col-6">
-                                        <input type="text" name="patronymic" class="form-control bg-dark text-white border-secondary" placeholder="Отчество">
+                                        <input type="text" name="patronymic" class="form-control bg-dark text-white border-secondary" placeholder="Отчество" value="{{Auth::user()->patronymic ?? ''}}">
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <input type="tel" name="phone" class="form-control bg-dark text-white border-secondary" placeholder="Телефон *" required>
+                                    <input type="tel" name="phone" class="form-control bg-dark text-white border-secondary" placeholder="Телефон *" required value="{{Auth::user()->phone ?? ''}}">
                                 </div>
 
                                 <hr class="border-secondary my-4">
@@ -96,23 +96,23 @@
 
                                 <div class="row g-2 mb-3">
                                     <div class="col-6">
-                                        <input type="text" name="country" class="form-control bg-dark text-white border-secondary" placeholder="Страна *" required value="Россия">
+                                        <input type="text" name="country" class="form-control bg-dark text-white border-secondary" placeholder="Страна *" required value="{{Auth::user()->country ?? 'Россия'}}">
                                     </div>
                                     <div class="col-6">
-                                        <input type="text" name="city" class="form-control bg-dark text-white border-secondary" placeholder="Город *" required>
+                                        <input type="text" name="city" class="form-control bg-dark text-white border-secondary" placeholder="Город *" required value="{{Auth::user()->city ?? ''}}">
                                     </div>
                                 </div>
 
                                 <div class="mb-3">
-                                    <input type="text" name="street" class="form-control bg-dark text-white border-secondary" placeholder="Улица *" required>
+                                    <input type="text" name="street" class="form-control bg-dark text-white border-secondary" placeholder="Улица *" required value="{{Auth::user()->street ?? ''}}">
                                 </div>
 
                                 <div class="row g-2 mb-3">
                                     <div class="col-6">
-                                        <input type="text" name="house_number" class="form-control bg-dark text-white border-secondary" placeholder="Дом/Кв *" required>
+                                        <input type="text" name="house_number" class="form-control bg-dark text-white border-secondary" placeholder="Дом/Кв *" required value="{{Auth::user()->house_number ?? ''}}">
                                     </div>
                                     <div class="col-6">
-                                        <input type="text" name="zip_code" class="form-control bg-dark text-white border-secondary" placeholder="Индекс *" required>
+                                        <input type="text" name="zip_code" class="form-control bg-dark text-white border-secondary" placeholder="Индекс *" required value="{{Auth::user()->zip_code ?? ''}}">
                                     </div>
                                 </div>
 
@@ -132,7 +132,7 @@
         @else
             <div class="text-center py-5">
                 <h3 class="text-secondary">Корзина пуста</h3>
-                <a href="/" class="btn btn-outline-light mt-3">Вернуться в магазин</a>
+                <a href="{{route('catalog.index')}}" class="btn btn-outline-light mt-3">Вернуться в магазин</a>
             </div>
         @endif
     </div>

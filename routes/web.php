@@ -43,13 +43,14 @@ Route::get('/profile/history', [\App\Http\Controllers\ProfileController::class, 
 
 Route::get('/about', [\App\Http\Controllers\AboutController::class, 'index']) -> name('about.index');
 
-Route::prefix('/crm')->name('crm.')->group(function(){
+Route::middleware(['auth', 'admin'])->prefix('/crm')->name('crm.')->group(function(){
     Route::get('/', [AdminController::class, 'index']) -> name('index');
 
     Route::resource('catalog-product', \App\Http\Controllers\CRM\CatalogProductController::class)->names('catalog-product');
 
     Route::get('/catalog-stone', [\App\Http\Controllers\CRM\CatalogStoneController::class, 'index']) -> name('catalog-stone.index');
     Route::get('/order', [\App\Http\Controllers\CRM\OrderController::class, 'index']) -> name('order.index');
+    Route::post('/orders/{order}/status', [\App\Http\Controllers\CRM\OrderController::class, 'updateStatus']) -> name('order.updateStatus');
     Route::get('/parameter', [\App\Http\Controllers\CRM\ParameterController::class, 'index']) -> name('parameter.index');
 
     Route::prefix('/parameter/{type}')->name('parameter.')->group(function(){
@@ -61,36 +62,5 @@ Route::prefix('/crm')->name('crm.')->group(function(){
     });
 
 });
-//Каталог
-//Route::get('/catalog', [\App\Http\Controllers\CatalogController::class, 'index']) -> name('catalog');
-//Route::post('/catalog/store', [\App\Http\Controllers\CatalogController::class, 'store']) -> name('catalog.store');
-//Route::get('/catalog/cart', [\App\Http\Controllers\CatalogController::class, 'cart']) -> name('catalog.cart');
 
-//CRM
-//Route::prefix('/crm')->group(function () {
-//    //Домашний роут
-//    Route::get('/', [\App\Http\Controllers\CrmController::class, 'index']) -> name('CRM.index');
-//
-//    //CRM-orders
-//    Route::prefix('/orders')->group(function () {
-//        Route::get('/', [\App\Http\Controllers\CrmController::class, 'orders']) -> name('CRM.orders');
-//    });
-//
-//    //CRM-catalog
-//    Route::prefix('/catalog')->group(function () {
-//        Route::get('/', [\App\Http\Controllers\CrmController::class, 'catalog']) -> name('CRM.catalog');
-//        Route::resources([
-//            'products' => \App\Http\Controllers\Crm\Catalog\ProductController::class,
-//            'categories' => \App\Http\Controllers\Crm\Catalog\CategoryController::class,
-//            'materials' => \App\Http\Controllers\Crm\Catalog\MaterialController::class,
-//            'sizes' => \App\Http\Controllers\Crm\Catalog\SizeController::class,
-//        ]);
-//    });
-//
-//
-//    //CRM-employed
-//    Route::prefix('/employed')->group(function () {
-//        Route::get('/', [\App\Http\Controllers\CrmController::class, 'employed']) -> name('CRM.employed');
-//    });
-//});
 

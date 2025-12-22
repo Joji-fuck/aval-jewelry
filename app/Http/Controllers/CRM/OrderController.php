@@ -12,11 +12,11 @@ class OrderController extends Controller
 {
     public function index(){
         $title = 'Заказы';
-        return view('admin.order', compact('title'));
+        $orders = Order::with('products')->latest()->paginate(20);
+        return view('admin.order', compact('title', 'orders'));
     }
     public function store(Request $request)
     {
-        // 1. Валидация (проверяем, что обязательные поля заполнены)
         $validated = $request->validate([
             'surname'      => 'required|string|max:255',
             'name'         => 'required|string|max:255',
@@ -73,4 +73,10 @@ class OrderController extends Controller
 
         return redirect()->route('home')->with('success', 'Заказ успешно оформлен!');
     }
+    public function updateStatus(Request $request, Order $order)
+    {
+        $order->update(['status' => $request->status]);
+        return back()->with('success', 'Статус обновлен');
+    }
+
 }

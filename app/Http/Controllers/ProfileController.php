@@ -60,6 +60,7 @@ class ProfileController extends Controller
     public function history(){
         $title = 'Профиль';
         $profile = auth()->user();
-        return view('user.history', compact('title','profile'));
+        $orders = $profile->orders()->with('products')->get();
+        return view('user.history', compact('title','profile', 'orders'));
     }
 }
