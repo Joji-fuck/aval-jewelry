@@ -38,7 +38,7 @@
     </section>
     <section class="menu wrap">
         <div class="menu-content">
-            <a href="#" id="img-2">
+            <a href="{{route('catalog.index')}}" id="img-2">
                 <div class="blue-line"></div>
                 <div class="green-circle"></div>
                 <img src="{{asset('images/stone-main.png')}}" alt="Кольцо">
@@ -51,7 +51,7 @@
     </section>
     <section class="menu wrap">
         <div class="menu-content">
-            <a href="#" id="img-3">
+            <a href="{{route('catalog.index')}}" id="img-3">
                 <div class="blue-line"></div>
                 <div class="orange-triangle"></div>
                 <img src="{{asset('images/work-main.png')}}" alt="Кольцо">
@@ -63,7 +63,9 @@
         </div>
     </section>
 
-    @include('layout.sections.footer')
+    <br/>
+    <br/>
+    <br/>
 @endsection
 
 

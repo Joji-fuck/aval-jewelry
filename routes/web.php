@@ -64,3 +64,5 @@ Route::middleware(['auth', 'admin'])->prefix('/crm')->name('crm.')->group(functi
 });
 
 
+
+

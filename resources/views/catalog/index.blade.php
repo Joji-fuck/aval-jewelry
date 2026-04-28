@@ -21,7 +21,7 @@
     }
     .product-card:hover {
         transform: translateY(-5px);
-        border-color: #d4af37; /* Золотая обводка при наведении */
+        border-color: rgb(13,202,240); /* Золотая обводка при наведении */
     }
 
     /* Сайдбар */
@@ -40,19 +40,19 @@
     }
     .form-control-dark:focus, .form-select-dark:focus {
         background-color: #333;
-        border-color: #d4af37;
+        border-color: rgb(13,202,240);
         color: #fff;
         box-shadow: none;
     }
 
-    .text-gold { color: #d4af37; }
+    .text-gold { color: rgb(13,202,240); }
     .btn-gold {
-        background-color: #d4af37;
+        background-color: rgb(13,202,240);
         color: #000;
         font-weight: bold;
         border: none;
     }
-    .btn-gold:hover { background-color: #b5952f; color: #000; }
+    .btn-gold:hover { background-color: rgb(13,202,240); color: #000; }
 
     /* Цена */
     .price-tag { font-size: 1.2rem; font-weight: bold; color: #fff; }
@@ -79,7 +79,7 @@
 
                         {{-- 2. Цена --}}
                         <div class="mb-4">
-                            <label class="form-label text-gold text-uppercase fw-bold small">Цена ($)</label>
+                            <label class="form-label text-gold text-uppercase fw-bold small">Цена (₽)</label>
                             <div class="d-flex gap-2">
                                 <input type="number" name="price_min" class="form-control form-control-dark" placeholder="От" value="{{ request('price_min') }}">
                                 <input type="number" name="price_max" class="form-control form-control-dark" placeholder="До" value="{{ request('price_max') }}">
@@ -127,7 +127,7 @@
 
                         {{-- Кнопки --}}
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-gold">Применить</button>
+                            <button type="submit" class="btn btn-info">Применить</button>
                             <a href="{{ route('catalog.index') }}" class="btn btn-outline-secondary btn-sm">Сбросить</a>
                         </div>
 
@@ -168,11 +168,11 @@
                                     </div>
                                 </div>
                                 <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title text-white text-truncate">{{ $product->name }}</h5>
-                                    <p class="small text-gray-500 mb-2">{{ $product->sku }}</p>
+                                    <h2 class="card-title text-white text-truncate">{{ $product->name }}</h2>
+                                    <p class="text-gray-500 mb-2">{{ $product->sku }}</p>
 
                                     {{-- Характеристики (Полиморфные) --}}
-                                    <div class="mb-3 small text-secondary">
+                                    <div class="mb-3 text-secondary ">
                                         @if($product->productable_type === 'App\Models\Stone')
                                             Вес: <span class="text-white">{{ $product->productable->weight }} ct</span>
                                         @elseif($product->productable_type === 'App\Models\JewelryItem')
@@ -182,7 +182,7 @@
 
                                     <div class="mt-auto d-flex justify-content-between align-items-center w-48">
                                         <div class="price-tag">{{ number_format($product->price, 0, '.', ' ') }}₽</div>
-                                        <a href="{{ route('cart.add', $product->id) }}" class="btn btn-primary">
+                                        <a href="{{ route('cart.add', $product->id) }}" class="btn btn-info">
                                             В корзину
                                         </a>
                                     </div>

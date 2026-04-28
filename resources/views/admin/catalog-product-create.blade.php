@@ -75,7 +75,7 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('crm.catalog-product.store') }}" method="POST">
+                        <form action="{{ route('crm.catalog-product.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
 
                             {{-- === 1. ВЫБОР ТИПА (ПОЛИМОРФ) === --}}
@@ -228,6 +228,28 @@
                             </div>
                             <div id="photoPreview" class="d-flex flex-wrap gap-3 mt-3"></div>
 
+                            <hr class="gold-line my-4">
+                            <h5 class="mb-3 text-white"><i class="bi bi-badge-3d"></i> 3D модель</h5>
+                            <div class="mb-3">
+                                <label class="form-label">Выберите файлы (только один GLB/GLTF)</label>
+                                <input type="file" name="model_3d"
+                                       class="form-control form-control-dark"
+                                       accept=".glb,.gltf"
+                                       id="modelInput">
+                                <div class="form-text text-white">Поддерживаются: GLB. Макс 128Мб</div>
+                            </div>
+                            <div id="modelPreviewContainer" class="mt-3 d-none">
+                                <p class="text-white small">Предпросмотр модели:</p>
+                                <div style="width: 100%; height: 300px; background: #1a1a1a; border-radius: 10px overflow: hidden;">
+                                    <model-viewer id="preview-3d"
+                                                  style="width: 100%; height: 100%;"
+                                                  camera-controls
+                                                  auto-rotate
+                                                  shadow-intensity="1">
+                                    </model-viewer>
+                                </div>
+                            </div>
+
                             <div class="d-flex justify-content-end align-items-center mt-5">
                                 <a href="{{ route('crm.catalog-product.index') }}" class="text-decoration-none text-white me-4">Отмена</a>
                                 <button type="submit" class="btn btn-warning fw-bold px-5 py-2">
@@ -288,6 +310,18 @@
 
             typeSelector.addEventListener('change', toggleFields);
             toggleFields();
+        });
+
+        document.getElementById('modelInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const container = document.getElementById('modelPreviewContainer');
+            const viewer = document.getElementById('preview-3d');
+
+            if (file) {
+                const url = URL.createObjectURL(file);
+                viewer.src = url; // Загружаем файл в 3D плеер
+                container.classList.remove('d-none'); // Показываем контейнер
+            }
         });
     </script>
 @endsection

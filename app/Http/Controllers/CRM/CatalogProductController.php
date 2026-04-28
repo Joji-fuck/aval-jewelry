@@ -38,11 +38,11 @@ class CatalogProductController extends Controller
             'sku' => 'required|string|unique:products,sku',
             'price' => 'required|numeric|min:0',
             'type' => 'required|in:stone,jewelry',
+            'model_3d' => 'nullable|file|mimetypes:model/gltf-binary,model/gltf+json|max:307200',
         ]);
         DB::transaction(function () use ($request) {
             $productable = null;
 
-            // !!! ИСПРАВЛЕНИЕ: Проверяем $request->type
             if ($request->type === 'stone') {
                 $productable = Stone::create([
                     'weight'       => $request->stone_weight,
@@ -91,6 +91,14 @@ class CatalogProductController extends Controller
                     ]);
                 }
             }
+
+            if ($request->hasFile('model_3d')) { // Имя должно совпадать с HTML
+                $file = $request->file('model_3d');
+                $path = $file->store('models', 'public');
+                $product->models()->create([
+                    'path' => $path
+                ]);
+            }
         });
 
         return redirect()->route('crm.catalog-product.index')->with('success', 'Товар успешно создан!');
@@ -124,7 +132,6 @@ class CatalogProductController extends Controller
                     'type_id'      => $request->type_id,
                     'cut_id'       => $request->cut_id,
                     'color_id'     => $request->color_id,
-                    // Дублируемые поля
                     'name'         => $request->name,
                     'internal_sku' => $request->sku,
                     'price'        => $request->price,
@@ -173,11 +180,6 @@ class CatalogProductController extends Controller
                 }
             }
 
-            // (Опционально) Обновить главное фото, если старое удалили или его нет
-            if (!$product->fresh()->images->isEmpty()) {
-                // Если вдруг главное фото удалили, ставим первое попавшееся
-                // Логику можно усложнить
-            }
         });
 
         return redirect()->route('crm.catalog-product.index')->with('success', 'Товар обновлен');

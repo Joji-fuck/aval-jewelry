@@ -13,77 +13,36 @@
 {{--@endsection--}}
 
 @section('content')
-    <div class="text-white">
-        <div class="container">
-
-            {{-- Заголовок --}}
-            <div class="row mb-5">
-                <div class="col-12 text-center">
-                    <h1 class="fw-bold display-4">О нас</h1>
-                    <p class="lead text-white-50">Мы создаем лучшие решения для наших клиентов.</p>
-                </div>
-            </div>
-
-            <div class="row g-5">
-                {{-- Левая колонка: Текст и Контакты --}}
-                <div class="col-lg-6 d-flex flex-column justify-content-center">
-
-                    <div class="mb-5">
-                        <h3 class="fw-bold mb-3">Кто мы такие?</h3>
-                        <p class="text-white-50">
-                            Аваль — команда профессионалов, увлеченных своим делом. Наша миссия — предоставлять качественные товары и безупречный сервис. Мы работаем на рынке уже более 5 лет и ценим доверие каждого клиента.
-                        </p>
-                        <p class="text-white-50">
-                            В нашем каталоге вы найдете только проверенную продукцию. Мы гарантируем быструю доставку и поддержку на всех этапах покупки.
-                        </p>
-                    </div>
-
-                    <div class="card bg-dark border-secondary text-white shadow-lg">
-                        <div class="card-body p-4">
-                            <h4 class="fw-bold mb-4">Наши контакты</h4>
-
-                            <div class="mb-3 d-flex align-items-start">
-                                <div class="me-3 text-white-50">📍</div>
-                                <div>
-                                    <h6 class="mb-0 fw-bold">Адрес</h6>
-                                    <span class="text-white-50">г. Тюмень, ул. Мельникайте, д. 125к1</span>
-                                </div>
-                            </div>
-
-                            <div class="mb-3 d-flex align-items-start">
-                                <div class="me-3 text-white-50">📞</div>
-                                <div>
-                                    <h6 class="mb-0 fw-bold">Телефон</h6>
-                                    <a href="tel:+79829009003" class="text-white text-decoration-none hover-underline">
-                                        +7 (982) 900-90-03
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="d-flex align-items-start">
-                                <div class="me-3 text-white-50">✉️</div>
-                                <div>
-                                    <h6 class="mb-0 fw-bold">Email</h6>
-                                    <a href="mailto:info@myshop.ru" class="text-white text-decoration-none">
-                                        aval.llc@mail.ru
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                {{-- Правая колонка: Карта --}}
-                <div class="col-lg-6">
-                    <div class="h-100 w-100 rounded overflow-hidden border border-secondary shadow-lg" style="min-height: 450px;">
-                        {{-- Скрипт Яндекс.Карт --}}
-                        {{-- Важно: div-обертке я задал min-height, чтобы карта не схлопнулась --}}
-                        <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Ad60dadf292073d325ad27bc1fc839c75d79e6a5854db2b374daf55224a85d29a&amp;width=100%&amp;height=100%&amp;lang=ru_RU&amp;scroll=true"></script>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+    <div class="about-gallery mt-5">
+        <img src="{{asset('images/gallery/1.png')}}" alt="1" width="500px">
+        <img src="{{asset('images/gallery/2.png')}}" alt="2" width="500px">
+        <img src="{{asset('images/gallery/3.png')}}" alt="3" width="500px">
     </div>
+    <div class="about-text">
+        <section class="about-card relative bg-black rounded-3xl overflow-hidden shadow-2xl mx-auto max-w-7xl">
+            <div class="absolute inset-0">
+                <img src="{{asset('images/background.png')}}" class="w-full h-full object-cover opacity-60" alt="Background">
+                <div class="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
+            </div>
+            <div class="relative z-10 p-12 lg:p-20 max-w-2xl">
+                <h1 class="text-4xl md:text-5xl text-white font-serif mt-4 mb-6 leading-tight">
+                    Ювелирная мастерская <span class="text-gray-300 italic">"Аваль"</span>
+                </h1>
+                <p class="text-gray-300 text-lg leading-relaxed mb-8">
+                    Мы специализируемся на создании и реставрации ювелирных изделий, которые не просто выглядят безупречно, но и хранят ваши истории. Наши мастера предлагают полный спектр услуг: от изготовления эксклюзивных украшений по вашему дизайну до сложного ремонта и возвращения блеска фамильным драгоценностям. Каждое изделие создается с ювелирной точностью и вниманием к деталям, гарантируя высочайшее качество и долговечность. Мы помогаем сохранить то, что ценно, и создать то, что станет бесценным.
+                </p>
+                <p class="text-gray-300 text-lg leading-relaxed mb-8">Ювелирная мастерская "Аваль"</p>
+            </div>
+        </section>
+    </div>
+
+
+
+    <div class="about-map h-100 w-100 rounded overflow-hidden border border-secondary shadow-lg" >
+        <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Ad60dadf292073d325ad27bc1fc839c75d79e6a5854db2b374daf55224a85d29a&amp;width=100%&amp;height=400px&amp;lang=ru_RU&amp;scroll=true"></script>
+    </div>
+
+
+    @include('layout.sections.footer')
 @endsection
+

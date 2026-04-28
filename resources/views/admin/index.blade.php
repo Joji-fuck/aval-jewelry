@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    <div class="container admin-menu text-center">
+    <div class="container admin-menu text-center mt-5">
         <a class="admin-menu-button" href="{{route('crm.catalog-product.index')}}">
             <span>Каталог изделий</span>
         </a>

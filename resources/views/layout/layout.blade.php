@@ -16,17 +16,21 @@
     @yield('bootstrap-css')
     @vite(['resources/css/app.css', 'resources/css/about.css', 'resources/js/app.js', 'resources/js/about.js'])
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
 </head>
 <body class="d-flex flex-column min-vh-100">
 <header>
     @include('layout.sections.header')
 </header>
-<main class="py-4 flex-grow-1">
+<main class="flex-grow-1">
     <div class="content">
         @yield('content')
     </div>
 </main>
 
 @yield('bootstrap-js')
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 </body>
 </html>

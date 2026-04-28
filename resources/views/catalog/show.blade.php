@@ -12,17 +12,18 @@
 
     <div class="container py-5 text-white">
 
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/" class="text-pretty text-decoration-none">Главная</a></li>
-                <li class="breadcrumb-item"><a href="{{route('catalog.index')}}" class="text-pretty text-decoration-none">Каталог</a></li>
-                <li class="breadcrumb-item text-white" aria-current="page">
-                    <a>
-                    {{ $product->name }}
-                    </a>
-                </li>
-            </ol>
-        </nav>
+        <div class="product-3d-view">
+            <model-viewer
+                src="{{ asset('storage/models/Test.glb') }}"
+                poster="{{ asset('storage/models/Test.glb') }}"
+                alt="{{ $product->name . '_3D'}}"
+                auto-rotate
+                camera-controls
+                shadow-intensity="1"
+                environment-image="neutral"
+                exposure="1.2">
+            </model-viewer>
+        </div>
 
         <div class="row mt-4">
             <div class="col-md-6 mb-3">
@@ -58,7 +59,6 @@
                                 @else
                                         <div class="row g-2">
                                                 <div class="col-3">
-                                                    {{-- Карточка миниатюры --}}
                                                     <img
                                                         src="{{ asset('storage/default.gif') }}"
                                                         class="img-fluid rounded border border-secondary thumbnail-img"
@@ -78,83 +78,77 @@
                 </h1>
 
                 <div class="mb-3">
-                    <span class="badge bg-warning text-dark me-2">Хит продаж</span>
+{{--                    <span class="badge bg-warning text-dark me-2">Хит продаж</span>--}}
                     <span class="text-secondary">Артикул: {{ $product->sku ?? '0000' }}</span>
                 </div>
 
+                <div class="mb-3">
+                    <span class="text-secondary">
+                        @if($product->productable_id === "App\Models\Stone")
+                            <span class="text-secondary">Категория: Драгоценные камни</span>
+                        @else
+                            <span class="text-secondary">Категория: Изделия</span>
+                        @endif
+                    </span>
+                </div>
+
                 <div class="fs-4 mb-4">
-                    <span class="fw-bold text-success">{{ number_format($product->price, 0, '.', ' ') }} ₽</span>
+                    <span class="fw-bold text-primary">{{ number_format($product->price, 0, '.', ' ') }} ₽</span>
                 </div>
 
                 <p class="lead text-secondary">
                     {{ $product->description ?? 'Краткое описание товара, основные преимущества и особенности.' }}
                 </p>
 
-                {{-- Блок добавления в корзину --}}
-{{--                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="d-flex align-items-center mb-4">--}}
-{{--                    @csrf--}}
-{{--                    <div class="me-3" style="width: 80px;">--}}
-{{--                        <input type="number" name="quantity" class="form-control form-control-dark bg-dark text-white border-secondary" value="1" min="1">--}}
-{{--                    </div>--}}
-{{--                    <button type="submit" class="btn btn-primary btn-lg px-4">--}}
-{{--                        <i class="bi bi-cart-plus"></i> В корзину--}}
-{{--                    </button>--}}
-{{--                </form>--}}
-
-{{--                <div class="card bg-dark border-secondary mb-3">--}}
-{{--                    <div class="card-body">--}}
-{{--                        <h5 class="card-title text-white">Коротко о товаре</h5>--}}
-{{--                        <ul class="list-unstyled text-secondary mb-0">--}}
-{{--                            --}}{{-- Пример списка характеристик --}}
-{{--                            <li><i class="bi bi-check-lg text-success me-2"></i>Бренд: {{ $product->brand_name }}</li>--}}
-{{--                            <li><i class="bi bi-check-lg text-success me-2"></i>Цвет: {{ $product->color }}</li>--}}
-{{--                            <li><i class="bi bi-check-lg text-success me-2"></i>Гарантия: 1 год</li>--}}
-{{--                        </ul>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
+{{--                 Блок добавления в корзину--}}
+                <form action="{{ route('cart.add', $product->id) }}" class="d-flex align-items-center mb-4">
+                    @csrf
+                    <button type="submit" class="btn btn-primary btn-lg px-4">
+                        В корзину
+                    </button>
+                </form>
             </div>
         </div>
-
-        {{-- НИЖНИЙ БЛОК: Табы с подробностями --}}
         <div class="row mt-5">
             <div class="col-12">
-                <ul class="nav nav-tabs border-secondary" id="productTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active bg-dark text-white border-secondary border-bottom-0" id="desc-tab" data-bs-toggle="tab" data-bs-target="#desc" type="button">Описание</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link bg-dark text-secondary border-secondary border-bottom-0" id="specs-tab" data-bs-toggle="tab" data-bs-target="#specs" type="button">Характеристики</button>
-                    </li>
-                </ul>
-
-                <div class="tab-content p-4 border border-top-0 border-secondary rounded-bottom bg-dark" id="productTabContent">
-                    {{-- ТАБ 1: Полное описание --}}
-                    <div class="tab-pane fade show active" id="desc" role="tabpanel">
-                        <div class="text-secondary">
-                            {!! $product->description !!}
-                        </div>
-                    </div>
-
-                    {{-- ТАБ 2: Таблица характеристик --}}
-                    <div class="tab-pane fade" id="specs" role="tabpanel">
-                        <table class="table table-dark table-striped table-hover">
-                            <tbody>
-                            {{-- Здесь можно пустить цикл по характеристикам --}}
-                            <tr>
-                                <th scope="row" class="w-25 text-secondary">Вес</th>
-                                <td>{{ $product->weight }} кг</td>
-                            </tr>
-                            <tr>
-                                <th scope="row" class="text-secondary">Материал</th>
-                                <td>{{ $product->material }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row" class="text-secondary">Страна</th>
-                                <td>{{ $product->country }}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <table class="table table-dark table-striped table-hover">
+                    @if($product->productable_type === "App\Models\Stone")
+                        <tbody>
+                        <tr>
+                            <th scope="row" class="w-25 text-secondary">Размеры, мм</th>
+                            {{--Поменять--}}
+                            <td>10,99х10,07х6,97</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="w-25 text-secondary">Фактическая масса, карат</th>
+                            <td>{{ $product->productable->weight }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="text-secondary">Огранка</th>
+                            <td>{{ $product->productable->cut->name}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="text-secondary">Цвет</th>
+                            <td>{{ $product->productable->color->name }}</td>
+                        </tr>
+                        </tbody>
+                    @else
+                        <tbody>
+                        <tr>
+                            <th scope="row" class="w-25 text-secondary">Размеры, мм</th>
+                            <td>{{ $product->productable->size }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="w-25 text-secondary">Фактическая масса, гр</th>
+                            <td>{{ $product->productable->base_weight }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="text-secondary">Материал</th>
+                            <td>{{ $product->productable->material->name}}</td>
+                        </tr>
+                        </tbody>
+                    @endif
+                </table>
                 </div>
             </div>
         </div>

@@ -29,7 +29,7 @@ body{
 header{
     position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 999;
 }
 nav{
     background: #1b1b1b;
@@ -73,21 +73,21 @@ footer{
     height: 70px;
     align-items: center;
     box-shadow: 0 -5px 20px 0 rgba(0, 0, 0, 0.2);
-    margin-top: 50px;
     justify-content: center;
-    position: relative;
+    padding: 50px 0;
 }
 footer p{
-    margin-left: 30px;
     font-weight: 300;
     font-size: 17px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
 }
 /*=========================Конец Footer=========================*/
 
 /*=========================Главная=========================*/
 main{
     overflow: hidden;
-    margin-top: 20px;
 }
 .main {
     display: flex;
@@ -485,6 +485,11 @@ button{
     background: #333333;
     color: #FFFFFF;
 }
+model-viewer {
+    width: 100%;
+    height: 500px;
+    background-color: #f8f9fa;
+}
 /*=========================Конец Правой части Каталога=========================*/
 
 /*=========================Профиль=========================*/
@@ -535,3 +540,76 @@ button{
     }
 }
 /*=========================Конец CRM=========================*/
+
+/*=========================О нас=========================*/
+.about-header{
+    margin: 15px;
+    border-radius: 10px;
+    background: url("../../public/images/background.png");
+    background-size: cover;
+    color: #FFFFFF;
+    height: 60vh;
+}
+.about-header-top{
+    font-size: 96px;
+    font-family: "Montserrat", sans-serif;
+    padding: 40px 0 20px 30px;
+    height: 30vh;
+    display: flex;
+    align-items: center;
+}
+.about-header-bottom span{
+    font-weight: 600;
+}
+.about-header-bottom{
+    padding: 20px 0 20px 30px;
+    backdrop-filter: blur(9px);
+    font-size: 21px;
+    font-weight: 300;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.about-gallery{
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+.about-gallery img{
+    border-radius: 20px;
+}
+.about-gallery img:nth-child(2){
+    rotate: -25deg;
+    z-index: 1;
+    box-shadow: -10px 10px 50px rgba(0, 0, 0, 0.6);
+}
+.about-gallery img:nth-child(3){
+    z-index: 2;
+}
+
+.about-text{
+    margin-top: 50px;
+}
+.about-card{
+    padding: 50px;
+}
+
+.about-p{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*align-items: center;*/
+    background: #6d6d6d;
+    border-radius: 20px 0 0 20px;
+    padding: 20px;
+    font-size: 18px;
+}
+.about-map{
+    margin-top: 40px;
+}
+.about-p p{
+    color: white;
+}
+/*=========================Конец О нас=========================*/
