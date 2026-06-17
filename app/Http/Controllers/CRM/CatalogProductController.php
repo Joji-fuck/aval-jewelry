@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\Type;
 use App\Models\Category;
+use App\Models\ProductImage;
+use Illuminate\Support\Facades\Storage;
 class CatalogProductController extends Controller
 {
     public function index(){
@@ -30,7 +32,6 @@ class CatalogProductController extends Controller
         $title = "Создание товара";
         return view('admin.catalog-product-create', compact('materials', 'cuts', 'colors', 'title', 'types'));
     }
-
     public function store(Request $request)
     {
         $validated = $request->validate([

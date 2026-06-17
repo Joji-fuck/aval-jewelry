@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
-
     public function index(){
         $title = 'Профиль';
         $profile = auth()->user();

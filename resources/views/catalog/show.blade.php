@@ -8,150 +8,159 @@
 
 
 @section('content')
-
-
     <div class="container py-5 text-white">
+        <section class="product-page">
+            <div class="container">
 
-        <div class="product-3d-view">
-            <model-viewer
-                src="{{ asset('storage/models/Test.glb') }}"
-                poster="{{ asset('storage/models/Test.glb') }}"
-                alt="{{ $product->name . '_3D'}}"
-                auto-rotate
-                camera-controls
-                shadow-intensity="1"
-                environment-image="neutral"
-                exposure="1.2">
-            </model-viewer>
-        </div>
+                <div class="product-grid">
 
-        <div class="row mt-4">
-            <div class="col-md-6 mb-3">
-                <div class="card bg-secondary border-0">
-                    @if($product->images->isNotEmpty())
-                        <img src="{{ asset('storage/' . $product->images->first()->path) }}"
-                             class="rounded border border-secondary"
-                             style="width: 560px; height: 560px; object-fit: cover;"
-                             id="mainImage"
-                             alt="{{ $product->name }}">
-                    @else
-                        <img src="{{ asset('storage/default.gif')}}"
-                             class="rounded border border-secondary"
-                             style="width: 560px; height: 560px; object-fit: cover;"
-                             alt="Нет фото">
-                    @endif
-                </div>
-                <div class="row mt-2">
-                        @if($product->images->count() > 0)
-                            <div class="row g-2">
-                                @foreach($product->images as $image)
-                                    <div class="col-3">
-                                        {{-- Карточка миниатюры --}}
-                                        <img
-                                            src="{{ asset('storage/' . $image->path) }}"
-                                            class="img-fluid rounded border border-secondary thumbnail-img"
-                                            style="cursor: pointer; object-fit: cover; height: 80px; width: 100%;"
-                                            onclick="document.getElementById('mainImage').src = this.src"
-                                            alt="Фото {{ $product->title }}"
-                                        >
-                                    </div>
-                                @endforeach
-                                @else
-                                        <div class="row g-2">
-                                                <div class="col-3">
-                                                    <img
-                                                        src="{{ asset('storage/default.gif') }}"
-                                                        class="img-fluid rounded border border-secondary thumbnail-img"
-                                                        style="cursor: pointer; object-fit: cover; height: 80px; width: 100%;"
-                                                        onclick="document.getElementById('mainImage').src = this.src"
-                                                        alt="Фото {{ $product->title }}"
-                                                    >
-                                                </div>
-                                    @endif
+                    {{-- ===== ГАЛЕРЕЯ ===== --}}
+                    <div class="product-gallery">
+                        <div class="product-gallery__main" id="main-visual-container">
+                            <img src="{{ asset('storage/' . ($product->images->first()->path ?? 'default.gif')) }}"
+                                 id="mainImage"
+                                 class="product-gallery__image"
+                                 alt="{{ $product->name }}">
+
+                            @if($product->models->isNotEmpty())
+                                <model-viewer id="mainModel"
+                                              src="{{ asset('storage/' . $product->models->first()->path) }}"
+                                              poster="{{ asset('storage/' . ($product->images->first()->path ?? 'default.gif')) }}"
+                                              alt="{{ $product->name }} 3D"
+                                              ar camera-controls touch-action="pan-y"
+                                              class="product-gallery__model"></model-viewer>
+                            @endif
+                        </div>
+
+                        <div class="product-gallery__thumbs">
+                            @foreach($product->images as $image)
+                                <div class="product-gallery__thumb"
+                                     onclick="showMedia('image', '{{ asset('storage/' . $image->path) }}')">
+                                    <img src="{{ asset('storage/' . $image->path) }}"
+                                         alt="Фото {{ $product->name }}">
+                                </div>
+                            @endforeach
+
+                            @if($product->models->isNotEmpty())
+                                <div class="product-gallery__thumb product-gallery__thumb--3d"
+                                     onclick="showMedia('model', '{{ asset('storage/' . $product->models->first()->path) }}')"
+                                     title="3D-модель">
+                                    <i class="bi bi-badge-3d"></i>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
+                    {{-- ===== ИНФОРМАЦИЯ ===== --}}
+                    <div class="product-info">
+                        <div class="product-info__category">
+                            @if($product->productable_type === \App\Models\Stone::class)
+                                Драгоценные камни
+                            @else
+                                Изделия
+                            @endif
+                        </div>
+
+                        <h1 class="product-info__title">{{ $product->name }}</h1>
+
+                        <div class="product-info__sku">
+                            Артикул: <span>{{ $product->sku ?? '0000' }}</span>
+                        </div>
+
+                        <div class="product-info__price-block">
+                            <span class="product-info__price-label">Цена</span>
+                            <div class="product-info__price">
+                        <span class="product-info__price-value">
+                            {{ number_format($product->price, 0, '.', ' ') }}
+                        </span>
+                                <span class="product-info__price-currency">₽</span>
+                            </div>
+                        </div>
+
+                        <p class="product-info__description">
+                            {{ $product->description ?? 'Краткое описание товара, основные преимущества и особенности.' }}
+                        </p>
+
+                        <form action="{{ route('cart.add', $product->id) }}" method="POST" class="product-info__actions">
+                            @csrf
+                            <button type="submit" class="product-info__btn">
+                                <i class="bi bi-bag-plus"></i>
+                                <span>В корзину</span>
+                            </button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
-            </div>
-            <div class="col-md-6 mb-3">
-            <div class="col-md-6">
-                <h1 class="display-5 fw-bold">
-                    {{ $product->name }}
-                </h1>
-
-                <div class="mb-3">
-{{--                    <span class="badge bg-warning text-dark me-2">Хит продаж</span>--}}
-                    <span class="text-secondary">Артикул: {{ $product->sku ?? '0000' }}</span>
-                </div>
-
-                <div class="mb-3">
-                    <span class="text-secondary">
-                        @if($product->productable_id === "App\Models\Stone")
-                            <span class="text-secondary">Категория: Драгоценные камни</span>
-                        @else
-                            <span class="text-secondary">Категория: Изделия</span>
-                        @endif
-                    </span>
-                </div>
-
-                <div class="fs-4 mb-4">
-                    <span class="fw-bold text-primary">{{ number_format($product->price, 0, '.', ' ') }} ₽</span>
-                </div>
-
-                <p class="lead text-secondary">
-                    {{ $product->description ?? 'Краткое описание товара, основные преимущества и особенности.' }}
-                </p>
-
-{{--                 Блок добавления в корзину--}}
-                <form action="{{ route('cart.add', $product->id) }}" class="d-flex align-items-center mb-4">
-                    @csrf
-                    <button type="submit" class="btn btn-primary btn-lg px-4">
-                        В корзину
-                    </button>
-                </form>
-            </div>
-        </div>
+        </section>
         <div class="row mt-5">
-            <div class="col-12">
-                <table class="table table-dark table-striped table-hover">
-                    @if($product->productable_type === "App\Models\Stone")
-                        <tbody>
-                        <tr>
-                            <th scope="row" class="w-25 text-secondary">Размеры, мм</th>
-                            {{--Поменять--}}
-                            <td>10,99х10,07х6,97</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="w-25 text-secondary">Фактическая масса, карат</th>
-                            <td>{{ $product->productable->weight }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="text-secondary">Огранка</th>
-                            <td>{{ $product->productable->cut->name}}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="text-secondary">Цвет</th>
-                            <td>{{ $product->productable->color->name }}</td>
-                        </tr>
-                        </tbody>
+            <div class="product-specs">
+                <h2 class="product-specs__title">Характеристики</h2>
+
+                <div class="product-specs__list">
+                    @if($product->productable_type === "App\\Models\\Stone")
+
+                        <div class="product-specs__item">
+                            <span class="product-specs__label">Размеры</span>
+                            <span class="product-specs__value">10,99 × 10,07 × 6,97 мм</span>
+                        </div>
+
+                        <div class="product-specs__item">
+                            <span class="product-specs__label">Фактическая масса</span>
+                            <span class="product-specs__value">{{ $product->productable->weight }} карат</span>
+                        </div>
+
+                        <div class="product-specs__item">
+                            <span class="product-specs__label">Огранка</span>
+                            <span class="product-specs__value">{{ $product->productable->cut->name }}</span>
+                        </div>
+
+                        <div class="product-specs__item">
+                            <span class="product-specs__label">Цвет</span>
+                            <span class="product-specs__value">{{ $product->productable->color->name }}</span>
+                        </div>
+
                     @else
-                        <tbody>
-                        <tr>
-                            <th scope="row" class="w-25 text-secondary">Размеры, мм</th>
-                            <td>{{ $product->productable->size }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="w-25 text-secondary">Фактическая масса, гр</th>
-                            <td>{{ $product->productable->base_weight }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="text-secondary">Материал</th>
-                            <td>{{ $product->productable->material->name}}</td>
-                        </tr>
-                        </tbody>
+
+                        <div class="product-specs__item">
+                            <span class="product-specs__label">Размер</span>
+                            <span class="product-specs__value">{{ $product->productable->size }} мм</span>
+                        </div>
+
+                        <div class="product-specs__item">
+                            <span class="product-specs__label">Фактическая масса</span>
+                            <span class="product-specs__value">{{ $product->productable->base_weight }} гр</span>
+                        </div>
+
+                        <div class="product-specs__item">
+                            <span class="product-specs__label">Материал</span>
+                            <span class="product-specs__value">{{ $product->productable->material->name }}</span>
+                        </div>
+
                     @endif
-                </table>
                 </div>
             </div>
         </div>
-
     </div>
+
+    <script>
+        function showMedia(type, source) {
+            const mainImg = document.getElementById('mainImage');
+            const mainModel = document.getElementById('mainModel');
+
+            if (type === 'image') {
+                mainImg.src = source;
+                mainImg.style.display = 'block';
+                if (mainModel) {
+                    mainModel.style.display = 'none';
+                }
+            } else if (type === 'model') {
+                mainImg.style.display = 'none';
+                if (mainModel) {
+                    mainModel.src = source;
+                    mainModel.style.display = 'block';
+                }
+            }
+        }
+    </script>
 @endsection

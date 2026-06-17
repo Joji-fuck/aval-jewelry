@@ -16,123 +16,153 @@
         <h1 class="mb-4">Корзина</h1>
 
         @if(session('cart') && count(session('cart')) > 0)
-            <div class="row">
-                {{-- ЛЕВАЯ КОЛОНКА: Список товаров --}}
-                <div class="col-lg-7 mb-4">
-                    <div class="table-responsive">
-                        <table class="table table-dark table-hover align-middle border-secondary">
-                            <thead>
-                            <tr class="text-secondary">
-                                <th>Товар</th>
-                                <th>Цена</th>
-                                <th>Кол-во</th>
-                                <th>Итого</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($cart as $id => $details)
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            {{-- Проверка на наличие картинки --}}
-                                            @if(isset($details['images']))
-                                                <img src="{{ asset('storage/' . $details['images']) }}"
-                                                     class="rounded me-3" style="width: 50px; height: 50px; object-fit: cover;">
-                                            @else
-                                                <img src="{{ asset('storage/default.gif')}}" class="rounded me-3" style="width: 50px; height: 50px; object-fit: cover;">
-                                            @endif
-                                            <small>{{ $details['name'] }}</small>
+            <div class="cart-page">
+                <div class="cart-grid">
+
+                    {{-- ===== ЛЕВАЯ КОЛОНКА: Список товаров ===== --}}
+                    <div class="cart-items">
+                        <h2 class="cart-section__title">Ваша корзина</h2>
+
+                        <div class="cart-list">
+                        @foreach($cart as $id => $details)
+                                <div class="cart-item">
+                                    <div class="cart-item__image">
+                                        @if(isset($details['image']))
+                                            <img src="{{ asset('storage/' . $details['image']) }}"
+                                                 alt="{{ $details['name'] }}">
+                                        @else
+                                            <img src="{{ asset('storage/default.gif') }}"
+                                                 alt="Нет фото">
+                                        @endif
+                                    </div>
+
+                                    <div class="cart-item__info">
+                                        <div class="cart-item__name">{{ $details['name'] }}</div>
+                                        <div class="cart-item__price">
+                                            {{ number_format($details['price'], 0, '.', ' ') }} ₽
+                                            <span class="cart-item__qty">× {{ $details['quantity'] }} шт.</span>
                                         </div>
-                                    </td>
-                                    <td>{{ number_format($details['price'], 0, '.', ' ') }}₽</td>
-                                    <td>{{ $details['quantity'] }}</td>
-                                    <td class="fw-bold">{{ number_format($details['price'] * $details['quantity'], 0, '.', ' ') }}₽</td>
-                                    <td>
-                                        <a href="{{ route('cart.remove', $id) }}" class="text-danger"><i class="bi bi-x-lg"></i></a>
-                                    </td>
-                                </tr>
+                                    </div>
+
+                                    <div class="cart-item__total">
+                                        {{ number_format($details['price'] * $details['quantity'], 0, '.', ' ') }} ₽
+                                    </div>
+
+                                    <a href="{{ route('cart.remove', $id) }}" class="cart-item__remove" title="Удалить">
+                                        <i class="bi bi-x-lg"></i>
+                                    </a>
+                                </div>
                             @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {{-- Общая сумма слева (для наглядности) --}}
-                    <div class="d-flex justify-content-end mt-3">
-                        <h4>Итого к оплате: <span class="text-success">{{ number_format($total, 0, '.', ' ') }} ₽</span></h4>
-                    </div>
-                </div>
-
-                {{-- ПРАВАЯ КОЛОНКА: Большая форма --}}
-                <div class="col-lg-5">
-                    <div class="card bg-dark border-secondary">
-                        <div class="card-header border-secondary bg-transparent">
-                            <h5 class="mb-0 text-white">Оформление заказа</h5>
                         </div>
-                        <div class="card-body">
-                            <form action="{{ route('order.store') }}" method="POST">
-                                @csrf
-                                <h6 class="text-secondary mb-3">Личные данные</h6>
 
-                                <div class="mb-3">
-                                    <input type="text" name="surname" class="form-control bg-dark text-white border-secondary" placeholder="Фамилия *" required value="{{ Auth::user()->surname ?? '' }}">
-                                </div>
-                                <div class="row g-2 mb-3">
-                                    <div class="col-6">
-                                        <input type="text" name="name" class="form-control bg-dark text-white border-secondary" placeholder="Имя *" required value="{{ Auth::user()->name ?? '' }}">
-                                    </div>
-                                    <div class="col-6">
-                                        <input type="text" name="patronymic" class="form-control bg-dark text-white border-secondary" placeholder="Отчество" value="{{Auth::user()->patronymic ?? ''}}">
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <input type="tel" name="phone" class="form-control bg-dark text-white border-secondary" placeholder="Телефон *" required value="{{Auth::user()->phone ?? ''}}">
-                                </div>
-
-                                <hr class="border-secondary my-4">
-
-                                {{-- Блок 2: Адрес --}}
-                                <h6 class="text-secondary mb-3">Адрес доставки</h6>
-
-                                <div class="row g-2 mb-3">
-                                    <div class="col-6">
-                                        <input type="text" name="country" class="form-control bg-dark text-white border-secondary" placeholder="Страна *" required value="{{Auth::user()->country ?? 'Россия'}}">
-                                    </div>
-                                    <div class="col-6">
-                                        <input type="text" name="city" class="form-control bg-dark text-white border-secondary" placeholder="Город *" required value="{{Auth::user()->city ?? ''}}">
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <input type="text" name="street" class="form-control bg-dark text-white border-secondary" placeholder="Улица *" required value="{{Auth::user()->street ?? ''}}">
-                                </div>
-
-                                <div class="row g-2 mb-3">
-                                    <div class="col-6">
-                                        <input type="text" name="house_number" class="form-control bg-dark text-white border-secondary" placeholder="Дом/Кв *" required value="{{Auth::user()->house_number ?? ''}}">
-                                    </div>
-                                    <div class="col-6">
-                                        <input type="text" name="zip_code" class="form-control bg-dark text-white border-secondary" placeholder="Индекс *" required value="{{Auth::user()->zip_code ?? ''}}">
-                                    </div>
-                                </div>
-
-                                {{-- Блок 3: Комментарий --}}
-                                <div class="mb-4">
-                                    <textarea name="comment" class="form-control bg-dark text-white border-secondary" rows="2" placeholder="Комментарий к заказу..."></textarea>
-                                </div>
-
-                                <button type="submit" class="btn btn-primary w-100 btn-lg">
-                                    Подтвердить заказ на {{ number_format($total, 0, '.', ' ') }} ₽
-                                </button>
-                            </form>
+                        <div class="cart-summary">
+                            <span class="cart-summary__label">Итого к оплате</span>
+                            <span class="cart-summary__value">
+                        {{ number_format($total, 0, '.', ' ') }} ₽
+                    </span>
                         </div>
                     </div>
+
+                    {{-- ===== ПРАВАЯ КОЛОНКА: Форма оформления ===== --}}
+                    <div class="cart-form">
+                        <div class="cart-form__header">
+                            <h3 class="cart-form__title">Оформление заказа</h3>
+                        </div>
+
+                        <form action="{{ route('order.store') }}" method="POST" class="cart-form__body">
+                            @csrf
+
+                            {{-- Личные данные --}}
+                            <div class="cart-form__section">
+                                <div class="cart-form__section-title">Личные данные</div>
+
+                                <div class="cart-form__field">
+                                    <input type="text" name="surname" class="cart-form__input"
+                                           placeholder="Фамилия *" required
+                                           value="{{ Auth::user()->surname ?? '' }}">
+                                </div>
+
+                                <div class="cart-form__row cart-form__row--2">
+                                    <div class="cart-form__field">
+                                        <input type="text" name="name" class="cart-form__input"
+                                               placeholder="Имя *" required
+                                               value="{{ Auth::user()->name ?? '' }}">
+                                    </div>
+                                    <div class="cart-form__field">
+                                        <input type="text" name="patronymic" class="cart-form__input"
+                                               placeholder="Отчество"
+                                               value="{{ Auth::user()->patronymic ?? '' }}">
+                                    </div>
+                                </div>
+
+                                <div class="cart-form__field">
+                                    <input type="tel" name="phone" class="cart-form__input"
+                                           placeholder="Телефон *" required
+                                           value="{{ Auth::user()->phone ?? '' }}">
+                                </div>
+                            </div>
+
+                            {{-- Адрес --}}
+                            <div class="cart-form__section">
+                                <div class="cart-form__section-title">Адрес доставки</div>
+
+                                <div class="cart-form__row cart-form__row--2">
+                                    <div class="cart-form__field">
+                                        <input type="text" name="country" class="cart-form__input"
+                                               placeholder="Страна *" required
+                                               value="{{ Auth::user()->country ?? 'Россия' }}">
+                                    </div>
+                                    <div class="cart-form__field">
+                                        <input type="text" name="city" class="cart-form__input"
+                                               placeholder="Город *" required
+                                               value="{{ Auth::user()->city ?? '' }}">
+                                    </div>
+                                </div>
+
+                                <div class="cart-form__field">
+                                    <input type="text" name="street" class="cart-form__input"
+                                           placeholder="Улица *" required
+                                           value="{{ Auth::user()->street ?? '' }}">
+                                </div>
+
+                                <div class="cart-form__row cart-form__row--2">
+                                    <div class="cart-form__field">
+                                        <input type="text" name="house_number" class="cart-form__input"
+                                               placeholder="Дом/Кв *" required
+                                               value="{{ Auth::user()->house_number ?? '' }}">
+                                    </div>
+                                    <div class="cart-form__field">
+                                        <input type="text" name="zip_code" class="cart-form__input"
+                                               placeholder="Индекс *" required
+                                               value="{{ Auth::user()->zip_code ?? '' }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- Комментарий --}}
+                            <div class="cart-form__section">
+                                <div class="cart-form__section-title">Комментарий</div>
+                                <div class="cart-form__field">
+                            <textarea name="comment" class="cart-form__input cart-form__input--textarea"
+                                      rows="3" placeholder="Комментарий к заказу..."></textarea>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="cart-form__submit">
+                                <i class="bi bi-check-circle"></i>
+                                Подтвердить заказ на {{ number_format($total, 0, '.', ' ') }} ₽
+                            </button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         @else
-            <div class="text-center py-5">
-                <h3 class="text-secondary">Корзина пуста</h3>
-                <a href="{{route('catalog.index')}}" class="btn btn-outline-light mt-3">Вернуться в магазин</a>
+            <div class="cart-empty">
+                <i class="bi bi-bag-x"></i>
+                <h3>Ваша корзина пуста</h3>
+                <p>Добавьте товары из каталога, чтобы оформить заказ</p>
+                <a href="{{ route('catalog.index') }}" class="cart-empty__link">Перейти в каталог</a>
             </div>
         @endif
     </div>

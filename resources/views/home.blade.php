@@ -38,13 +38,13 @@
     </section>
     <section class="menu wrap">
         <div class="menu-content">
-            <a href="{{route('catalog.index')}}" id="img-2">
+            <a href="{{route('constructor.index')}}" id="img-2">
                 <div class="blue-line"></div>
                 <div class="green-circle"></div>
                 <img src="{{asset('images/stone-main.png')}}" alt="Кольцо">
             </a>
             <div class="menu-text" id="text-2">
-                <span>Каталог<br>камней</span>
+                <span>Конструктор<br>изделий</span>
                 <span>Только лучшие образцы<br>с безупречной огранкой</span>
             </div>
         </div>

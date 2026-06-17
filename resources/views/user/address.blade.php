@@ -8,51 +8,83 @@
 @endsection
 
 @section('content')
-    <div class="container" data-bs-theme="dark">
-        <h1 class="text-white">Профиль</h1>
-        <div class="profile">
-            <aside class="profile-left">
-                @include('user.layout.aside')
-            </aside>
-            <form class="profile-right" action="{{route('profile.address.update')}}" method="post">
-                @if (session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <section class="profile-page">
+        <div class="container">
+            <h1 class="profile-page__title">Профиль</h1>
+
+            <div class="profile">
+                <aside class="profile-left">
+                    @include('user.layout.aside')
+                </aside>
+
+                <form class="profile-right profile-card" action="{{ route('profile.address.update') }}" method="post">
+                    @csrf
+                    @method('PATCH')
+
+                    @if (session('success'))
+                        <div class="profile-alert profile-alert--success">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>{{ session('success') }}</span>
+                            <button type="button" class="profile-alert__close" data-bs-dismiss="alert" aria-label="Close">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                    @endif
+
+                    <div class="profile-card__header">
+                        <h2 class="profile-card__title">Адрес доставки</h2>
+                        <p class="profile-card__subtitle">Заполните данные для оформления заказов</p>
                     </div>
-                @endif
-                @csrf
-                @method('PATCH')
-                <h3 class="text-white mb-3">Адрес доставки</h3>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Страна</span>
-                    <input type="text" class="form-control" placeholder="(пусто)" aria-label="name" name="country" value="{{$profile->country}}">
-                </div>
-                <div class="mb-3">
-                    <div class="input-group">
-                        <span class="input-group-text">Город</span>
-                        <input type="text" class="form-control" placeholder="(пусто)" aria-label="city" name="city" value="{{$profile->city}}">
+
+                    <div class="profile-form">
+                        <div class="profile-form__group">
+                            <label class="profile-form__label" for="country">Страна</label>
+                            <input id="country" type="text" class="profile-form__input"
+                                   name="country" placeholder="Введите страну"
+                                   value="{{ $profile->country }}">
+                        </div>
+
+                        <div class="profile-form__group">
+                            <label class="profile-form__label" for="city">Город</label>
+                            <input id="city" type="text" class="profile-form__input"
+                                   name="city" placeholder="Введите город"
+                                   value="{{ $profile->city }}">
+                        </div>
+
+                        <div class="profile-form__row">
+                            <div class="profile-form__group">
+                                <label class="profile-form__label" for="street">Улица</label>
+                                <input id="street" type="text" class="profile-form__input"
+                                       name="street" placeholder="Введите улицу"
+                                       value="{{ $profile->street }}">
+                            </div>
+
+                            <div class="profile-form__group profile-form__group--small">
+                                <label class="profile-form__label" for="house_number">Дом</label>
+                                <input id="house_number" type="text" class="profile-form__input"
+                                       name="house_number" placeholder="№"
+                                       value="{{ $profile->house_number }}">
+                            </div>
+                        </div>
+
+                        <div class="profile-form__group profile-form__group--small">
+                            <label class="profile-form__label" for="zip_code">Индекс</label>
+                            <input id="zip_code" type="text" class="profile-form__input"
+                                   name="zip_code" placeholder="000000"
+                                   maxlength="6" inputmode="numeric"
+                                   oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,6)"
+                                   value="{{ $profile->zip_code }}">
+                        </div>
                     </div>
-                </div>
-                <div class="mb-3">
-                    <div class="input-group">
-                        <span class="input-group-text">Улица</span>
-                        <input type="text" class="form-control" placeholder="(пусто)" aria-label="street" name="street" value="{{$profile->street}}">
-                        <span class="input-group-text">Дом</span>
-                        <input type="text" class="form-control" placeholder="(пусто)" aria-label="house" name="house_number" value="{{$profile->house_number}}">
+
+                    <div class="profile-card__footer">
+                        <button class="profile-button profile-button--primary" type="submit">
+                            <i class="bi bi-check2"></i>
+                            Сохранить изменения
+                        </button>
                     </div>
-                </div>
-                <div class="mb-3">
-                    <div class="input-group">
-                        <span class="input-group-text">Индекс</span>
-                        <input type="text"
-                               maxlength="6"
-                               inputmode="numeric"
-                               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,6)" class="form-control" placeholder="(пусто)" aria-label="zip_code" name="zip_code" value="{{$profile->zip_code}}">
-                    </div>
-                </div>
-                <button class="btn btn-primary" type="submit">Редактировать</button>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
+    </section>
 @endsection

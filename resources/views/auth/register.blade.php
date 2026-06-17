@@ -8,40 +8,104 @@
 @endsection
 
 @section('content')
-    <div class="container" data-bs-theme="dark">
-        <h1 class="text-white text-center mt-2 mb-2">Регистрация</h1>
+    <section class="auth-page">
+        <div class="auth-container">
 
-        <form method="post" action="{{route('register.store')}}">
-            @csrf
-            <div class="d-flex justify-evenly gap-3">
-                <div class="mb-3 flex-fill">
-                    <label for="surname" class="form-label text-white">Фамилия</label>
-                    <input type="text" name="surname" class="form-control" id="surname" aria-describedby="emailHelp" value="{{old('surname')}}">
-                </div>
-                <div class="mb-3 flex-fill">
-                    <label for="name" class="form-label text-white">Имя</label>
-                    <input type="text" name="name" class="form-control" id="name" aria-describedby="emailHelp" value="{{old('name')}}">
+            <div class="auth-card">
+                <div class="auth-card__header">
+                    <i class="bi bi-person-plus auth-card__icon"></i>
+                    <h1 class="auth-card__title">Регистрация</h1>
+                    <p class="auth-card__subtitle">Создайте аккаунт, чтобы оформлять заказы</p>
                 </div>
 
+                <form method="post" action="{{ route('register.store') }}" class="auth-form">
+                    @csrf
+
+                    <div class="auth-form__row auth-form__row--2">
+                        <div class="auth-form__field">
+                            <label for="surname" class="auth-form__label">Фамилия</label>
+                            <input type="text" name="surname" id="surname"
+                                   class="auth-form__input @error('surname') is-invalid @enderror"
+                                   value="{{ old('surname') }}" required>
+                            @error('surname')
+                            <div class="auth-form__error">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="auth-form__field">
+                            <label for="name" class="auth-form__label">Имя</label>
+                            <input type="text" name="name" id="name"
+                                   class="auth-form__input @error('name') is-invalid @enderror"
+                                   value="{{ old('name') }}" required>
+                            @error('name')
+                            <div class="auth-form__error">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="auth-form__field">
+                        <label for="email" class="auth-form__label">Электронная почта</label>
+                        <input type="email" name="email" id="email"
+                               class="auth-form__input @error('email') is-invalid @enderror"
+                               value="{{ old('email') }}" required>
+                        <div class="auth-form__hint">
+                            Указывая email, вы <strong>НЕ</strong> даёте согласие на рекламную рассылку
+                        </div>
+                        @error('email')
+                        <div class="auth-form__error">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="auth-form__field">
+                        <label for="login" class="auth-form__label">Логин</label>
+                        <input type="text" name="login" id="login"
+                               class="auth-form__input @error('login') is-invalid @enderror"
+                               value="{{ old('login') }}" required>
+                        @error('login')
+                        <div class="auth-form__error">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="auth-form__row auth-form__row--2">
+                        <div class="auth-form__field">
+                            <label for="password" class="auth-form__label">Пароль</label>
+                            <div class="auth-form__input-wrap">
+                                <input type="password" name="password" id="password"
+                                       class="auth-form__input @error('password') is-invalid @enderror"
+                                       required>
+                                <button type="button" class="auth-form__toggle" data-toggle-password="password">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            @error('password')
+                            <div class="auth-form__error">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="auth-form__field">
+                            <label for="password_confirmation" class="auth-form__label">Повторите пароль</label>
+                            <div class="auth-form__input-wrap">
+                                <input type="password" name="password_confirmation" id="password_confirmation"
+                                       class="auth-form__input" required>
+                                <button type="button" class="auth-form__toggle" data-toggle-password="password_confirmation">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="auth-form__submit">
+                        <i class="bi bi-check2-circle"></i>
+                        Зарегистрироваться
+                    </button>
+
+                    <div class="auth-form__footer">
+                        Уже есть аккаунт?
+                        <a href="{{ route('login.index') }}" class="auth-form__link">Войти</a>
+                    </div>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="email" class="form-label text-white">Электронная почта</label>
-                <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{old('email')}}">
-                <div id="emailHelp" class="form-text">Указывая электронную почту, вы НЕ даете свое согласие на рекламную рассылку</div>
-            </div>
-            <div class="mb-3">
-                <label for="login" class="form-label text-white">Логин</label>
-                <input type="text" class="form-control" name="login" id="login" aria-describedby="emailHelp" value="{{old('login')}}">
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label text-white">Пароль</label>
-                <input type="password" class="form-control" name="password" id="password">
-            </div>
-            <div class="mb-3">
-                <label for="password_confirmation" class="form-label text-white">Подтвердите пароль</label>
-                <input type="password" class="form-control" name="password_confirmation" id="password_confirmation">
-            </div>
-            <button type="submit" class="btn btn-primary">Зарегестрироваться</button>
-        </form>
-    </div>
+
+        </div>
+    </section>
 @endsection

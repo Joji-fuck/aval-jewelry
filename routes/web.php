@@ -37,7 +37,7 @@ Route::patch('/profile/update', [\App\Http\Controllers\ProfileController::class,
 Route::get('/profile/address', [\App\Http\Controllers\ProfileController::class, 'address']) -> name('profile.address');
 Route::patch('/profile/address/update', [\App\Http\Controllers\ProfileController::class, 'addressUpdate']) -> name('profile.address.update');
 Route::get('/profile/password', [\App\Http\Controllers\ProfileController::class, 'passwordReset']) -> name('profile.password');
-Route::get('/profile/password/update', [\App\Http\Controllers\ProfileController::class, 'passwordResetUpdate']) -> name('profile.password.update');
+Route::patch('/profile/password/update', [\App\Http\Controllers\ProfileController::class, 'passwordResetUpdate']) -> name('profile.password.update');
 Route::get('/profile/history', [\App\Http\Controllers\ProfileController::class, 'history']) -> name('profile.history');
 
 
@@ -61,7 +61,17 @@ Route::middleware(['auth', 'admin'])->prefix('/crm')->name('crm.')->group(functi
         Route::delete('/{id}', [\App\Http\Controllers\CRM\ParameterController::class, 'destroy']) -> name('destroy');
     });
 
+    Route::get('/ring-orders', [\App\Http\Controllers\CRM\RingOrderAdminController::class, 'index'])->name('ring-orders.index');
+    Route::get('/ring-orders/{ringOrder}', [\App\Http\Controllers\CRM\RingOrderAdminController::class, 'show'])->name('ring-orders.show');
+    Route::patch('/ring-orders/{ringOrder}/status', [\App\Http\Controllers\CRM\RingOrderAdminController::class, 'updateStatus'])->name('ring-orders.update-status');
 });
+
+
+Route::get('/constructor', [\App\Http\Controllers\RingConstructorController::class, 'index'])->name('constructor.index');
+Route::get ('/constructor/checkout',[\App\Http\Controllers\RingOrderController::class, 'create'])->name('ring-orders.create');
+Route::post('/constructor/checkout',[\App\Http\Controllers\RingOrderController::class, 'store'])->name('ring-orders.store');
+Route::get ('/constructor/success/{ringOrder}', [\App\Http\Controllers\RingOrderController::class, 'success'])->name('ring-orders.success');
+
 
 
 

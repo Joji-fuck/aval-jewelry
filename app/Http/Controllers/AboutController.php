@@ -11,4 +11,5 @@ class AboutController extends Controller
         $title = "О нас";
         return view('about.index', compact('title'));
     }
+
 }

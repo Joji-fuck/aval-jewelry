@@ -58,81 +58,118 @@
     .price-tag { font-size: 1.2rem; font-weight: bold; color: #fff; }
 </style>
     <div class="container-fluid py-5">
+
+        {{--Модальное окно--}}
+        @include('cart.modal')
         <div class="row">
 
             {{-- === САЙДБАР С ФИЛЬТРАМИ (3 колонки) === --}}
             <div class="col-lg-3 mb-4">
-                <div class="filter-sidebar sticky-top" style="top: 20px; z-index: 1;">
-                    <h4 class="mb-4 text-white"><i class="bi bi-sliders"></i> Фильтры</h4>
+                <aside class="filter-sidebar">
+                    <div class="filter-sidebar__sticky">
 
-                    <form action="{{ route('catalog.index') }}" method="GET" id="filterForm">
-
-                        {{-- 1. Тип изделия --}}
-                        <div class="mb-4">
-                            <label class="form-label text-gold text-uppercase fw-bold small">Тип изделия</label>
-                            <select name="type" class="form-select form-select-dark" onchange="this.form.submit()">
-                                <option value="">Все товары</option>
-                                <option value="stone" {{ request('type') == 'stone' ? 'selected' : '' }}>Драгоценные камни</option>
-                                <option value="jewelry" {{ request('type') == 'jewelry' ? 'selected' : '' }}> Украшения</option>
-                            </select>
+                        <div class="filter-sidebar__header">
+                            <i class="bi bi-sliders"></i>
+                            <h3 class="filter-sidebar__title">Фильтры</h3>
                         </div>
 
-                        {{-- 2. Цена --}}
-                        <div class="mb-4">
-                            <label class="form-label text-gold text-uppercase fw-bold small">Цена (₽)</label>
-                            <div class="d-flex gap-2">
-                                <input type="number" name="price_min" class="form-control form-control-dark" placeholder="От" value="{{ request('price_min') }}">
-                                <input type="number" name="price_max" class="form-control form-control-dark" placeholder="До" value="{{ request('price_max') }}">
-                            </div>
-                        </div>
+                        <form action="{{ route('catalog.index') }}" method="GET" id="filterForm" class="filter-form">
 
-                        {{-- 3. Категория (Общая) --}}
-                        <div class="mb-4">
-                            <label class="form-label text-gold text-uppercase fw-bold small">Категория</label>
-                            @foreach($categories as $cat)
-                                <div class="form-check">
-                                    <input class="form-check-input bg-dark border-secondary" type="radio" name="category_id" value="{{ $cat->id }}" id="cat_{{ $cat->id }}"
-                                        {{ request('category_id') == $cat->id ? 'checked' : '' }}>
-                                    <label class="form-check-label text-secondary" for="cat_{{ $cat->id }}">
-                                        {{ $cat->name }}
-                                    </label>
+                            {{-- 1. Тип изделия --}}
+                            <div class="filter-form__group">
+                                <label class="filter-form__label">Тип изделия</label>
+                                <div class="filter-form__select-wrap">
+                                    <select name="type" class="filter-form__select" onchange="this.form.submit()">
+                                        <option value="">Все товары</option>
+                                        <option value="stone" {{ request('type') == 'stone' ? 'selected' : '' }}>Драгоценные камни</option>
+                                        <option value="jewelry" {{ request('type') == 'jewelry' ? 'selected' : '' }}>Украшения</option>
+                                    </select>
+                                    <i class="bi bi-chevron-down filter-form__select-arrow"></i>
                                 </div>
-                            @endforeach
-                        </div>
+                            </div>
 
-                        {{-- ДИНАМИЧЕСКИЕ ФИЛЬТРЫ (JS не нужен, используем Blade условия) --}}
+                            {{-- 2. Цена --}}
+                            <div class="filter-form__group">
+                                <label class="filter-form__label">Цена, ₽</label>
+                                <div class="filter-form__range">
+                                    <input type="number" name="price_min" class="filter-form__input"
+                                           placeholder="От" value="{{ request('price_min') }}">
+                                    <span class="filter-form__range-divider">—</span>
+                                    <input type="number" name="price_max" class="filter-form__input"
+                                           placeholder="До" value="{{ request('price_max') }}">
+                                </div>
+                            </div>
 
-                        {{-- Только для УКРАШЕНИЙ --}}
-                        @if(request('type') == 'jewelry')
-                            <div class="mb-4 p-3 rounded border border-secondary" style="background: rgba(255, 193, 7, 0.05);">
-                                <label class="form-label text-warning fw-bold small">Материал</label>
-                                <select name="material_id" class="form-select form-select-dark form-select-sm">
-                                    <option value="">Любой</option>
-                                    @foreach($materials as $mat)
-                                        <option value="{{ $mat->id }}" {{ request('material_id') == $mat->id ? 'selected' : '' }}>
-                                            {{ $mat->name }}
-                                        </option>
+                            {{-- 3. Категория --}}
+                            <div class="filter-form__group">
+                                <label class="filter-form__label">Категория</label>
+                                <div class="filter-form__radios">
+                                    <label class="filter-radio">
+                                        <input type="radio" name="category_id" value=""
+                                            {{ !request('category_id') ? 'checked' : '' }}>
+                                        <span class="filter-radio__mark"></span>
+                                        <span class="filter-radio__text">Все категории</span>
+                                    </label>
+
+                                    @foreach($categories as $cat)
+                                        <label class="filter-radio" for="cat_{{ $cat->id }}">
+                                            <input type="radio" name="category_id" id="cat_{{ $cat->id }}"
+                                                   value="{{ $cat->id }}"
+                                                {{ request('category_id') == $cat->id ? 'checked' : '' }}>
+                                            <span class="filter-radio__mark"></span>
+                                            <span class="filter-radio__text">{{ $cat->name }}</span>
+                                        </label>
                                     @endforeach
-                                </select>
+                                </div>
                             </div>
-                        @endif
 
-                        {{-- Только для КАМНЕЙ --}}
-                        @if(request('type') == 'stone')
-                            <div class="mb-4 p-3 rounded border border-secondary" style="background: rgba(13, 202, 240, 0.05);">
-                                <label class="form-label text-info fw-bold small">Мин. вес (ct)</label>
-                                <input type="number" step="0.01" name="stone_weight_min" class="form-control form-control-dark form-control-sm" value="{{ request('stone_weight_min') }}">
+                            {{-- ====== ДИНАМИЧЕСКИЕ ФИЛЬТРЫ ====== --}}
+
+                            {{-- Только для УКРАШЕНИЙ --}}
+                            @if(request('type') === 'jewelry')
+                                <div class="filter-form__group filter-form__group--dynamic">
+                                    <div class="filter-form__group-tag">Украшения</div>
+                                    <label class="filter-form__label">Материал</label>
+                                    <div class="filter-form__select-wrap">
+                                        <select name="material_id" class="filter-form__select">
+                                            <option value="">Любой</option>
+                                            @foreach($materials as $mat)
+                                                <option value="{{ $mat->id }}" {{ request('material_id') == $mat->id ? 'selected' : '' }}>
+                                                    {{ $mat->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <i class="bi bi-chevron-down filter-form__select-arrow"></i>
+                                    </div>
+                                </div>
+                            @endif
+
+                            {{-- Только для КАМНЕЙ --}}
+                            @if(request('type') === 'stone')
+                                <div class="filter-form__group filter-form__group--dynamic">
+                                    <div class="filter-form__group-tag">Камни</div>
+                                    <label class="filter-form__label">Минимальный вес, ct</label>
+                                    <input type="number" step="0.01" name="stone_weight_min"
+                                           class="filter-form__input"
+                                           placeholder="0.00"
+                                           value="{{ request('stone_weight_min') }}">
+                                </div>
+                            @endif
+
+                            {{-- Кнопки --}}
+                            <div class="filter-form__actions">
+                                <button type="submit" class="filter-form__btn filter-form__btn--primary">
+                                    <i class="bi bi-funnel"></i>
+                                    Применить
+                                </button>
+                                <a href="{{ route('catalog.index') }}" class="filter-form__btn filter-form__btn--ghost">
+                                    Сбросить
+                                </a>
                             </div>
-                        @endif
 
-                        {{-- Кнопки --}}
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-info">Применить</button>
-                            <a href="{{ route('catalog.index') }}" class="btn btn-outline-secondary btn-sm">Сбросить</a>
-                        </div>
-
-                    </form>
-                </div>
+                        </form>
+                    </div>
+                </aside>
             </div>
 
             {{-- === СЕТКА ТОВАРОВ (9 колонок) === --}}
@@ -146,7 +183,7 @@
                 <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
                     @forelse($products as $product)
                         <div class="col">
-                            <div class="card product-card h-100">
+                            <div class="card product-card h-100 ">
                                 <div style="height: 250px; overflow: hidden;" class="position-relative">
                                     @if($product->images->isNotEmpty())
                                         <a href="{{route('catalog.show', $product->slug)}}" class="w-60">
@@ -180,9 +217,9 @@
                                         @endif
                                     </div>
 
-                                    <div class="mt-auto d-flex justify-content-between align-items-center w-48">
-                                        <div class="price-tag">{{ number_format($product->price, 0, '.', ' ') }}₽</div>
-                                        <a href="{{ route('cart.add', $product->id) }}" class="btn btn-info">
+                                    <div class="mt-auto d-flex flex-col justify-content-stretch w-48">
+                                        <div class="price-tag"><span style="font-size: 24px">{{ number_format($product->price, 0, '.', ' ') }}₽</span></div>
+                                        <a href="{{ route('cart.add', $product->id) }}" class="btn text-white mt-2 btn-primary" style="padding: 10px 5px;">
                                             В корзину
                                         </a>
                                     </div>
@@ -196,12 +233,15 @@
                         </div>
                     @endforelse
                 </div>
-
                 {{-- Пагинация --}}
                 <div class="mt-5">
                     {{ $products->links('pagination::bootstrap-5') }}
                 </div>
 
+                {{-- Кнопка каталога --}}
+                <button type="button" class="cart-btn fixed bottom-[15px] right-[15px]" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="bi bi-bag text-4xl text-white"></i>
+                </button>
             </div>
         </div>
     </div>

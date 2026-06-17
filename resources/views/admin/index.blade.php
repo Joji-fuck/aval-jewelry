@@ -12,8 +12,8 @@
         <a class="admin-menu-button" href="{{route('crm.catalog-product.index')}}">
             <span>Каталог изделий</span>
         </a>
-        <a class="admin-menu-button" href="{{route('crm.catalog-stone.index')}}">
-            <span>В разработке...</span>
+        <a class="admin-menu-button" href="{{route('crm.ring-orders.index')}}">
+            <span>Конструктор</span>
         </a>
         <a class="admin-menu-button" href="{{route('crm.order.index')}}">
             <span>Заявки</span>

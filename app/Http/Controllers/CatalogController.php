@@ -78,7 +78,7 @@ class CatalogController extends Controller
     }
 
     public function add($id){
-        $product = Product::findOrFail($id);
+        $product = Product::with('images')->findOrFail($id);
         if (!$product->is_published) {
             return redirect()->back()->with('error', 'Товар снят с продажи.');
         }
@@ -98,6 +98,7 @@ class CatalogController extends Controller
                 "slug" => $product->slug,
                 "quantity" => 1,
                 "price" => $product->price,
+                "image" => $product->images->first() ? $product->images->first()->path : null,
             ];
         }
 
@@ -114,5 +115,10 @@ class CatalogController extends Controller
             session()->put('cart', $cart);
         }
         return redirect()->back()->with('success', 'Товар удален из корзины');
+    }
+
+    public function cartModal(){
+        $cart = session()->get('cart', []);
+
     }
 }

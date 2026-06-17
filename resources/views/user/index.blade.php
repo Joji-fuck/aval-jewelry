@@ -8,48 +8,100 @@
 @endsection
 
 @section('content')
-    <div class="container" data-bs-theme="dark">
-        <h1 class="text-white">Профиль</h1>
-        <div class="profile">
-            <aside class="profile-left">
-                @include('user.layout.aside')
-            </aside>
-            <form class="profile-right" action="{{route('profile.index.update')}}" method="post">
-                @if (session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <section class="profile-page">
+        <div class="container">
+            <h1 class="profile-page__title">Профиль</h1>
+
+            <div class="profile">
+                <aside class="profile-left">
+                    @include('user.layout.aside')
+                </aside>
+
+                <form class="profile-right profile-card" action="{{ route('profile.index.update') }}" method="post">
+                    @csrf
+                    @method('PATCH')
+
+                    @if (session('success'))
+                        <div class="profile-alert profile-alert--success">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>{{ session('success') }}</span>
+                            <button type="button" class="profile-alert__close" data-bs-dismiss="alert" aria-label="Close">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                    @endif
+
+                    <div class="profile-card__header">
+                        <h2 class="profile-card__title">Основная информация</h2>
+                        <p class="profile-card__subtitle">Личные данные и контакты для связи</p>
                     </div>
-                @endif
-                @csrf
-                @method('PATCH')
-                <h3 class="text-white mb-3">Основная информация</h3>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Имя</span>
-                    <input type="text" class="form-control" placeholder="(пусто)" aria-label="name" name="name" value="{{$profile->name}}">
-                    <span class="input-group-text">Фамилия</span>
-                    <input type="text" class="form-control" placeholder="(пусто)" aria-label="surname" name="surname" value="{{$profile->surname}}">
-                </div>
-                <div class="mb-3">
-                    <div class="input-group">
-                        <span class="input-group-text">Отчество</span>
-                        <input type="text" class="form-control" placeholder="(пусто)" aria-label="patronymic" name="patronymic" value="{{$profile->patronymic}}">
+
+                    <div class="profile-form">
+
+                        <div class="profile-form__row">
+                            <div class="profile-form__group">
+                                <label class="profile-form__label" for="name">Имя</label>
+                                <input id="name" type="text" class="profile-form__input"
+                                       name="name" placeholder="Введите имя"
+                                       value="{{ $profile->name }}">
+                            </div>
+
+                            <div class="profile-form__group">
+                                <label class="profile-form__label" for="surname">Фамилия</label>
+                                <input id="surname" type="text" class="profile-form__input"
+                                       name="surname" placeholder="Введите фамилию"
+                                       value="{{ $profile->surname }}">
+                            </div>
+                        </div>
+
+                        <div class="profile-form__group">
+                            <label class="profile-form__label" for="patronymic">Отчество</label>
+                            <input id="patronymic" type="text" class="profile-form__input"
+                                   name="patronymic" placeholder="Введите отчество (если есть)"
+                                   value="{{ $profile->patronymic }}">
+                        </div>
+
+                        <div class="profile-form__group">
+                            <label class="profile-form__label" for="email">
+                                <i class="bi bi-envelope"></i>
+                                Электронная почта
+                            </label>
+                            <input id="email" type="email" class="profile-form__input"
+                                   name="email" placeholder="example@mail.ru"
+                                   value="{{ $profile->email }}">
+                        </div>
+
+                        <div class="profile-form__group">
+                            <label class="profile-form__label" for="phone">
+                                <i class="bi bi-telephone"></i>
+                                Телефон
+                            </label>
+                            <input id="phone" type="tel" class="profile-form__input"
+                                   name="phone" placeholder="+7 (___) ___-__-__"
+                                   value="{{ $profile->phone }}">
+                        </div>
+
                     </div>
-                </div>
-                <div class="mb-3">
-                    <div class="input-group">
-                        <span class="input-group-text">E-mail</span>
-                        <input type="email" class="form-control" placeholder="(пусто)" aria-label="email" name="email" value="{{$profile->email}}">
+
+                    <div class="profile-card__footer">
+                        <button class="profile-button profile-button--primary" type="submit">
+                            <i class="bi bi-check2"></i>
+                            Сохранить изменения
+                        </button>
                     </div>
-                </div>
-                <div class="mb-3">
-                    <div class="input-group">
-                        <span class="input-group-text">Телефон</span>
-                        <input type="text" class="form-control" placeholder="(пусто)" aria-label="email" name="phone" value="{{$profile->phone}}">
-                    </div>
-                </div>
-                <button class="btn btn-primary">Редактировать</button>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
+    </section>
+    <script src="https://unpkg.com/imask"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const phone = document.getElementById('phone');
+            if (phone) {
+                IMask(phone, {
+                    mask: '+{7} (000) 000-00-00'
+                });
+            }
+        });
+    </script>
 @endsection
